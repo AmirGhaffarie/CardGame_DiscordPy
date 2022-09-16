@@ -1,6 +1,8 @@
+import configparser
 import enum
 from fileinput import filename
 from os import path
+import os
 import re
 import json
 import tempfile
@@ -156,3 +158,9 @@ async def get_image(url):
                     await f1.write(await r.read())
                     await f1.close()
                     return filename
+
+
+def read_config(section, key):
+    parser = configparser.ConfigParser()
+    parser.read(CONFIG_ADDRESS)
+    return parser.get(section, key)

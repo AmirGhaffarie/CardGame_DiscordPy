@@ -3,6 +3,7 @@ import os
 from discord.ext import commands, tasks
 import asyncio
 from utilities.constants import *
+from utilities.functions import read_config
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -29,4 +30,4 @@ for cog_folder in cog_folders:
             asyncio.run(bot.load_extension(f"cogs.{cog_folder.name}.{file[:-3]}"))
 
 
-bot.run(BOT_TOKEN)
+bot.run(read_config("Bot", "Token"))
