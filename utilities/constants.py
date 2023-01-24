@@ -8,7 +8,7 @@ EMOJIS_CHECKMARK = "<a:check_mark_button:892593202400469052>"
 EMOJIS_COIN = "<:Coin:931482402419789824>"
 
 # timers
-DROP_TIMEOUT = 25
+DROP_TIMEOUT = 20
 LONG_COMMAND_TIMEOUT = 120
 # settings
 BASE_DIR = Path(__file__).resolve().parent.parent

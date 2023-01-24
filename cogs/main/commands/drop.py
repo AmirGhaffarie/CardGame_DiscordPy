@@ -1,6 +1,6 @@
 from aiohttp import ClientSession
 from utilities.constants import *
-from utilities.functions import get_cooldown, show_card
+from utilities.functions import get_image, get_cooldown, show_card
 import discord
 import random
 from asyncio import sleep
@@ -14,7 +14,7 @@ async def command(self, ctx):
             elif r.status == 210:
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
-                cardInfo, embed, msg = await show_card(
+                cardInfo, embed, msg= await show_card(
                     ctx, await r.text(), [EMOJIS_DROP], "Drop", 0xFFAFAF
                 )
                 await sleep(DROP_TIMEOUT)
@@ -44,4 +44,7 @@ async def command(self, ctx):
                         f"{DJANGO_SERVER_ADDRESS}/addcard/{winner.id}/{carduid}/1"
                     ) as r:
                         await r.text()
-                        await ctx.send(embed=embed)
+                        filepath = await get_image(cardInfo["url"])
+                        file = discord.File(filepath, filename="card.png")
+                        embed.set_image(url="attachment://card.png")
+                        await ctx.send(file=file,embed=embed)

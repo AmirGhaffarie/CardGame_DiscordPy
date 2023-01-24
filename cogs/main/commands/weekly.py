@@ -10,7 +10,7 @@ from PIL import Image
 
 async def command(self, ctx, *args):
     if len(args) == 0:
-        await ctx.send("you need to enter an anime series.")
+        await ctx.send("you need to enter a group name.")
         return
     else:
         animename = args[0].capitalize()

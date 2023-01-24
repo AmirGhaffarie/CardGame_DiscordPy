@@ -2,7 +2,7 @@ import json
 import discord
 from aiohttp.client import ClientSession
 from utilities.constants import *
-from utilities.functions import getCard,getUser,getInputType,Inputs
+from utilities.functions import get_image,getCard,getUser,getInputType,Inputs
 
 async def command(self,ctx,*args):
     async with ClientSession() as session:
@@ -22,9 +22,11 @@ async def command(self,ctx,*args):
                 for key, value in cardinfo.items():
                     if key != 'url':
                         embed.add_field(name=key,value=value)
-                embed.set_image(url=cardinfo['url'])
+                filepath = await get_image(cardinfo["url"])
+                file = discord.File(filepath, filename="card.png")
+                embed.set_image(url="attachment://card.png")
                 embed.add_field(name='Owner',value=f'<@{id}>')
-                await ctx.send(embed=embed)
+                await ctx.send(file=file,embed=embed)
 
 def getInfos(ctx,*args):
     if len(args) == 1:
