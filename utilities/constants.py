@@ -19,5 +19,6 @@ DJANGO_SERVER_ADDRESS = "http://127.0.0.1:8000/base"
 LOCAL_MEDIA_ADDRESS = (
     "C:/Users/amirg/Desktop/PythonProjects/CardgameBackend_Django/CardGameDB"
 )
+
 REMOTE_MEDIA_ADDRESS = "http://146.70.88.124:10020"
 INVENTORY_PAGE_SIZE = 10
