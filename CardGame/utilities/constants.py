@@ -14,12 +14,13 @@ LONG_COMMAND_TIMEOUT = 120
 # settings
 BASE_DIR = Path(__file__).resolve().parent.parent
 CONFIG_ADDRESS = os.path.join(BASE_DIR, "Configs", "BotConfig.cfg")
+
+
+DB_ADDRESS = "http://django.db:8020/"
+DB_BASE_ADDRESS = "http://django.db:8020/base"
+DB_CONFIGS_ADDRESS = "http://django.db:8020/configs"
+
 LOCAL_MEDIA_FILES = True
-
-DB_ADDRESS = "http://146.70.88.124:8020/"
-DB_BASE_ADDRESS = "http://146.70.88.124:8020/base"
-DB_CONFIGS_ADDRESS = "http://146.70.88.124:8020/configs"
-
 LOCAL_MEDIA_ADDRESS = "root/Docker"
 REMOTE_MEDIA_ADDRESS = "http://146.70.88.124:10020"
 
