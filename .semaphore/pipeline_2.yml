@@ -14,3 +14,5 @@ blocks:
             - 'docker pull $DOCKER_USERNAME/cardgame_discordpy:latest || true'
             - 'docker build --cache-from=$DOCKER_USERNAME/cardgame_discordpy:latest -t $DOCKER_USERNAME/cardgame_discordpy:latest .'
             - 'docker push $DOCKER_USERNAME/cardgame_discordpy:latest'
+      secrets:
+        - name: dockerhub
