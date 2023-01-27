@@ -12,12 +12,12 @@ DROP_TIMEOUT = 20
 LONG_COMMAND_TIMEOUT = 120
 # settings
 BASE_DIR = Path(__file__).resolve().parent.parent
-CONFIG_ADDRESS = os.path.join(BASE_DIR,'BotConfig.cfg')
+CONFIG_ADDRESS = os.path.join(BASE_DIR,'Configs','BotConfig.cfg')
 LOCAL_MEDIA_FILES = True
-DJANGO_SERVER_ADDRESS = "http://127.0.0.1:8000/base"
+DJANGO_SERVER_ADDRESS = "http://127.0.0.1:8020/base"
 
 LOCAL_MEDIA_ADDRESS = (
-    "C:/Users/amirg/Desktop/PythonProjects/CardgameBackend_Django/CardGameDB"
+    "root/Docker"
 )
 
 REMOTE_MEDIA_ADDRESS = "http://146.70.88.124:10020"
