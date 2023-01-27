@@ -14,11 +14,11 @@ LONG_COMMAND_TIMEOUT = 120
 BASE_DIR = Path(__file__).resolve().parent.parent
 CONFIG_ADDRESS = os.path.join(BASE_DIR,'Configs','BotConfig.cfg')
 LOCAL_MEDIA_FILES = True
-DJANGO_SERVER_ADDRESS = "http://127.0.0.1:8020/base"
+DJANGO_SERVER_ADDRESS = "http://django_db:8020/base"
 
 LOCAL_MEDIA_ADDRESS = (
     "root/Docker"
 )
-
 REMOTE_MEDIA_ADDRESS = "http://146.70.88.124:10020"
+
 INVENTORY_PAGE_SIZE = 10

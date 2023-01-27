@@ -20,7 +20,7 @@ async def on_ready():
 async def update_status():
     await bot.change_presence(
         status=discord.Status.online,
-        activity=discord.Game(f"Shuffling in {len(bot.guilds)} servers"),
+        activity=discord.Game(f"in {len(bot.guilds)} servers"),
     )
 
 
