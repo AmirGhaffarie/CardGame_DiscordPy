@@ -5,7 +5,7 @@ from utilities.constants import *
 
 async def command(self, ctx):
     async with ClientSession() as session:
-        async with session.get(f"{DJANGO_SERVER_ADDRESS}/balance/{ctx.author.id}") as r:
+        async with session.get(f"{DB_BASE_ADDRESS}/balance/{ctx.author.id}") as r:
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
             else:

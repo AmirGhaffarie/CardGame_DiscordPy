@@ -13,7 +13,7 @@ async def command(self, ctx, *args):
             useridforrequest = getUser(args[0])
         params = {"page_size": str(INVENTORY_PAGE_SIZE)}
         async with session.get(
-            f"{DJANGO_SERVER_ADDRESS}/inventory/{useridforrequest}", params=params
+            f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
         ) as r:
             result = await r.json()
             page = 1

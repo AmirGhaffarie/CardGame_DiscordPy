@@ -4,7 +4,6 @@ from discord.ext import commands, tasks
 import asyncio
 from utilities.constants import *
 from utilities.functions import read_config
-import cogs.main.Main
 
 intents = discord.Intents.default()
 intents.message_content = True

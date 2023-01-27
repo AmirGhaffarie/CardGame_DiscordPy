@@ -8,13 +8,13 @@ from asyncio import sleep
 
 async def command(self, ctx):
     async with ClientSession() as session:
-        async with session.get(f"{DJANGO_SERVER_ADDRESS}/drop/{ctx.author.id}") as r:
+        async with session.get(f"{DB_BASE_ADDRESS}/drop/{ctx.author.id}") as r:
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
             elif r.status == 210:
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
-                cardInfo, embed, msg= await show_card(
+                cardInfo, embed, msg = await show_card(
                     ctx, await r.text(), [EMOJIS_DROP], "Drop", 0xFFAFAF
                 )
                 await sleep(DROP_TIMEOUT)
@@ -41,10 +41,10 @@ async def command(self, ctx):
                     await msg.delete()
                     carduid = cardInfo["ID"]
                     async with session.get(
-                        f"{DJANGO_SERVER_ADDRESS}/addcard/{winner.id}/{carduid}/1"
+                        f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/1"
                     ) as r:
                         await r.text()
                         filepath = await get_image(cardInfo["url"])
                         file = discord.File(filepath, filename="card.png")
                         embed.set_image(url="attachment://card.png")
-                        await ctx.send(file=file,embed=embed)
+                        await ctx.send(file=file, embed=embed)

@@ -7,7 +7,7 @@ import json
 
 async def command(self, ctx, *args):
     async with ClientSession() as session:
-        async with session.get(f"{DJANGO_SERVER_ADDRESS}/daily/{ctx.author.id}") as r:
+        async with session.get(f"{DB_BASE_ADDRESS}/daily/{ctx.author.id}") as r:
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
             elif r.status == 210:
@@ -23,10 +23,10 @@ async def command(self, ctx, *args):
                 )
                 carduid = cardInfo["ID"]
                 async with session.get(
-                    f"{DJANGO_SERVER_ADDRESS}/addcard/{ctx.author.id}/{carduid}/1"
+                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/1"
                 ) as r:
                     await r.text()
                 async with session.get(
-                    f"{DJANGO_SERVER_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
+                    f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
                 ) as r2:
                     await r2.text()

@@ -84,7 +84,7 @@ async def get_card_embed(ctx, card, embedtitle, embedcolor):
 
 async def check_can_claim(self, user, ctx) -> bool:
     async with ClientSession() as session:
-        async with session.get(f"{DJANGO_SERVER_ADDRESS}/cds/{user.id}") as r:
+        async with session.get(f"{DB_BASE_ADDRESS}/cds/{user.id}") as r:
             if r.status == 404:
                 await ctx.send(f'{user.mention} register with "start" first.')
                 return False
@@ -100,7 +100,7 @@ async def check_can_claim(self, user, ctx) -> bool:
                 else:
                     async with ClientSession() as session:
                         async with session.get(
-                            f"{DJANGO_SERVER_ADDRESS}/claim/{user.id}"
+                            f"{DB_BASE_ADDRESS}/claim/{user.id}"
                         ) as r:
                             await r.text()
                     return True

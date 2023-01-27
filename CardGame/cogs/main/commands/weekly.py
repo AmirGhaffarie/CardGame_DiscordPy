@@ -18,7 +18,7 @@ async def command(self, ctx, *args):
             animename += " " + arg.capitalize()
     async with ClientSession() as session:
         async with session.get(
-            f"{DJANGO_SERVER_ADDRESS}/weekly/{ctx.author.id}/{animename}"
+            f"{DB_BASE_ADDRESS}/weekly/{ctx.author.id}/{animename}"
         ) as r:
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
@@ -51,16 +51,16 @@ async def command(self, ctx, *args):
                 embed.set_image(url=f"attachment://card.png")
                 card1uid = card1["ID"]
                 async with session.get(
-                    f"{DJANGO_SERVER_ADDRESS}/addcard/{ctx.author.id}/{card1uid}/1"
+                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card1uid}/1"
                 ) as r:
                     await r.text()
                 card2uid = card2["ID"]
                 async with session.get(
-                    f"{DJANGO_SERVER_ADDRESS}/addcard/{ctx.author.id}/{card2uid}/1"
+                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}/1"
                 ) as r:
                     await r.text()
                 async with session.get(
-                    f"{DJANGO_SERVER_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
+                    f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
                 ) as r2:
                     await r2.text()
                 await ctx.send(file=file, embed=embed)

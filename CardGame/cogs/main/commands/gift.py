@@ -12,7 +12,7 @@ async def command(self, ctx, *args):
             return
         for card, count in cards.items():
             async with session.get(
-                f"{DJANGO_SERVER_ADDRESS}/checkcard/{ctx.author.id}/{card}/{count}"
+                f"{DB_BASE_ADDRESS}/checkcard/{ctx.author.id}/{card}/{count}"
             ) as r:
                 if r.status == 404:
                     await ctx.send("Player not exist or does not have the card.")
@@ -22,7 +22,7 @@ async def command(self, ctx, *args):
                     return
         for card, count in cards.items():
             async with session.get(
-                f"{DJANGO_SERVER_ADDRESS}/giftcard/{ctx.author.id}/{id}/{card}/{count}"
+                f"{DB_BASE_ADDRESS}/giftcard/{ctx.author.id}/{id}/{card}/{count}"
             ) as r:
                 await r.text()
         embed = discord.Embed(title="Gift", color=0xF78589)

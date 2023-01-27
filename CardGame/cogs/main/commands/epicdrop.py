@@ -9,9 +9,7 @@ import asyncio
 
 async def command(self, ctx):
     async with ClientSession() as session:
-        async with session.get(
-            f"{DJANGO_SERVER_ADDRESS}/epicdrop/{ctx.author.id}"
-        ) as r:
+        async with session.get(f"{DB_BASE_ADDRESS}/epicdrop/{ctx.author.id}") as r:
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
             elif r.status == 210:
@@ -51,7 +49,7 @@ async def command(self, ctx):
                             embed.add_field(name="Owner", value=ctx.author.mention)
                             carduid = json.loads(cardInfos[current])["ID"]
                             async with session.get(
-                                f"{DJANGO_SERVER_ADDRESS}/addcard/{ctx.author.id}/{carduid}/1"
+                                f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/1"
                             ) as r:
                                 await r.text()
                                 await msg.edit(embed=embed)
@@ -124,7 +122,7 @@ async def drop_extra(self, card, ctx):
         carduid = cardInfo["ID"]
         async with ClientSession() as session:
             async with session.get(
-                f"{DJANGO_SERVER_ADDRESS}/addcard/{winner.id}/{carduid}/1"
+                f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/1"
             ) as r:
                 await r.text()
                 await ctx.send(embed=embed)
