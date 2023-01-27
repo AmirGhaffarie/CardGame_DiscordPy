@@ -9,6 +9,7 @@ import tempfile
 import uuid
 import discord
 import aiofiles
+import importlib
 from utilities.constants import *
 from datetime import timedelta
 from aiohttp import ClientSession
@@ -147,8 +148,7 @@ def get_tempfilename():
 
 async def get_image(url):
     if LOCAL_MEDIA_FILES:
-        address = path.join(LOCAL_MEDIA_ADDRESS, url[1:])
-        return address
+        filename = path.join(LOCAL_MEDIA_ADDRESS, url[1:])
     else:
         address = REMOTE_MEDIA_ADDRESS + url
         async with ClientSession() as session:
@@ -157,10 +157,36 @@ async def get_image(url):
                 async with aiofiles.open(filename, mode="wb") as f1:
                     await f1.write(await r.read())
                     await f1.close()
-                    return filename
+    return filename
 
 
 def read_config(section, key):
     parser = configparser.ConfigParser()
-    parser.read(CONFIG_ADDRESS)
+    parser.read(CONFIG_FILE_ADDRESS)
     return parser.get(section, key)
+
+
+def get_databaseconfigs_dir():
+    return os.path.join(BASE_DIR, "datas")
+
+
+def get_cogs_dir():
+    return os.path.join(BASE_DIR, "cogs")
+
+
+async def load_cogs(bot):
+    cog_folders = [f for f in os.scandir(get_cogs_dir()) if f.is_dir()]
+    for cog_folder in cog_folders:
+        for file in os.listdir(cog_folder.path):
+            if file.endswith(".py"):
+                await bot.load_extension(f"cogs.{cog_folder.name}.{file[:-3]}")
+
+
+async def load_database_datas():
+    files = [f for f in os.scandir(get_databaseconfigs_dir()) if f.name.endswith(".py")]
+    for file in files:
+        mod = importlib.import_module(f"datas.{file.name[:-3]}")
+        if mod != None:
+            func = getattr(mod, "load", None)
+            if func != None:
+                await func()

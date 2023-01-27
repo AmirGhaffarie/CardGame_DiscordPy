@@ -13,7 +13,7 @@ DROP_TIMEOUT = 20
 LONG_COMMAND_TIMEOUT = 120
 # settings
 BASE_DIR = Path(__file__).resolve().parent.parent
-CONFIG_ADDRESS = os.path.join(BASE_DIR, "Configs", "BotConfig.cfg")
+CONFIG_FILE_ADDRESS = os.path.join(BASE_DIR, "Configs", "BotConfig.cfg")
 
 
 DB_ADDRESS = "http://django.db:8020/"
