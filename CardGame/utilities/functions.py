@@ -1,11 +1,9 @@
 import configparser
 import enum
-from fileinput import filename
 from os import path
 import os
 import re
 import json
-import tempfile
 import uuid
 import discord
 import aiofiles
@@ -13,7 +11,7 @@ import importlib
 from utilities.constants import *
 from datetime import timedelta
 from aiohttp import ClientSession
-
+from PIL import Image
 
 def parse_time(s) -> timedelta:
     if "day" in s:
@@ -65,6 +63,7 @@ async def show_card(ctx, card, reactions, embedtitle, embedcolor):
     file = discord.File(filepath, filename="card.png")
     embed.set_image(url="attachment://card.png")
     msg: discord.Message = await ctx.send(file=file, embed=embed)
+    try_delete(file.filename)
     for reaction in reactions:
         await msg.add_reaction(reaction)
     return cardinfo, embed, msg
@@ -119,7 +118,7 @@ def getInputType(input: str):
         return Inputs.User
     if input.isdigit():
         return Inputs.Number
-    if len(input) == 6:
+    if len(input) > 6 and input[:5].isalpha() and input[-3:].isdigit():
         return Inputs.Card
     return Inputs.Invalid
 
@@ -190,3 +189,30 @@ async def load_database_datas():
             func = getattr(mod, "load", None)
             if func != None:
                 await func()
+
+
+def merge_images(image_list):
+    images = [Image.open(x) for x in image_list]
+    widths, heights = zip(*(i.size for i in images))
+    spacing = 16
+    total_width = sum(widths) + (len(images) - 1) * spacing
+    max_height = max(heights)
+    new_im = Image.new("RGBA", (total_width, max_height))
+    x_offset = 0
+    for im in images:
+        new_im.paste(im, (x_offset, 0))
+        x_offset += im.size[0] + spacing
+    filepath = get_tempfilename()
+    new_im.save(filepath)
+
+    try_delete(image_list)
+
+    return filepath
+
+def try_delete(*files):
+    try:
+        for file in files:
+            os.remove(file)
+    except OSError:
+        pass
+

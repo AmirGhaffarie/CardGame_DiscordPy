@@ -1,6 +1,13 @@
 from aiohttp import ClientSession
 from utilities.constants import *
-from utilities.functions import get_card_embed, get_cooldown, show_card, check_can_claim
+from utilities.functions import (
+    get_card_embed,
+    get_cooldown,
+    show_card,
+    check_can_claim,
+    get_image,
+    try_delete,
+)
 from datetime import datetime, timezone
 import json
 import discord
@@ -70,6 +77,7 @@ async def command(self, ctx):
                                 if current < 2:
                                     await msg.add_reaction(EMOJIS_SKIP)
                                 await msg.edit(embed=embed)
+                                try_delete(file.filename)
                 if collected:
                     await asyncio.gather(
                         drop_extra(self, cardInfos[0], ctx),
@@ -134,4 +142,8 @@ async def drop_extra(self, card, ctx):
         )
         loseembed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
         await msg.delete()
-        await ctx.send(embed=loseembed)
+        filepath = await get_image(cardInfo["url"])
+        file = discord.File(filepath, filename="card.png")
+        embed.set_image(url="attachment://card.png")
+        await ctx.send(file=file, embed=loseembed)
+        try_delete(file.filename)

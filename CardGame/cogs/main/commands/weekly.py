@@ -1,11 +1,9 @@
 import random
 from aiohttp import ClientSession
 from utilities.constants import *
-from utilities.functions import get_cooldown, get_image, get_tempfilename, show_card
+from utilities.functions import get_cooldown, get_image, try_delete, merge_images
 import json
 import discord
-import aiofiles
-from PIL import Image
 
 
 async def command(self, ctx, *args):
@@ -64,19 +62,4 @@ async def command(self, ctx, *args):
                 ) as r2:
                     await r2.text()
                 await ctx.send(file=file, embed=embed)
-
-
-def merge_images(image_list):
-    images = [Image.open(x) for x in image_list]
-    widths, heights = zip(*(i.size for i in images))
-    spacing = 16
-    total_width = sum(widths) + (len(images) - 1) * spacing
-    max_height = max(heights)
-    new_im = Image.new("RGBA", (total_width, max_height))
-    x_offset = 0
-    for im in images:
-        new_im.paste(im, (x_offset, 0))
-        x_offset += im.size[0] + spacing
-    filepath = get_tempfilename()
-    new_im.save(filepath)
-    return filepath
+                try_delete(file.filename)
