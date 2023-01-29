@@ -11,9 +11,9 @@ async def command(self, ctx, *args):
         await ctx.send("you need to enter a group name.")
         return
     else:
-        animename = args[0].capitalize()
+        animename = args[0].upper()
         for arg in args[1:]:
-            animename += " " + arg.capitalize()
+            animename += " " + arg.upper()
     async with ClientSession() as session:
         async with session.get(
             f"{DB_BASE_ADDRESS}/weekly/{ctx.author.id}/{animename}"
