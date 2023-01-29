@@ -210,9 +210,5 @@ def merge_images(image_list):
     return filepath
 
 def try_delete(*files):
-    try:
-        for file in files:
-            os.remove(file)
-    except OSError:
-        pass
+    i = 2
 
