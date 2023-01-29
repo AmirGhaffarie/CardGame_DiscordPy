@@ -20,6 +20,8 @@ DB_ADDRESS = "http://django.db:8020/"
 DB_BASE_ADDRESS = "http://django.db:8020/base"
 DB_CONFIGS_ADDRESS = "http://django.db:8020/configs"
 
+TEMP_FILE_ADDRESS = "/opt/app/CardGame/temp"
+
 LOCAL_MEDIA_FILES = True
 LOCAL_MEDIA_ADDRESS = "/opt/app"
 REMOTE_MEDIA_ADDRESS = "http://146.70.88.124:10020"

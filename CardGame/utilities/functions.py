@@ -139,9 +139,9 @@ def getCard(input):
 
 
 def get_tempfilename():
-    filename = path.join("temp", f"{uuid.uuid4()}.png")
+    filename = path.join(TEMP_FILE_ADDRESS, f"{uuid.uuid4()}.png")
     while path.exists(filename):
-        filename = path.join("temp", f"{uuid.uuid4()}.png")
+        filename = path.join(TEMP_FILE_ADDRESS, f"{uuid.uuid4()}.png")
     return filename
 
 
