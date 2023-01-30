@@ -7,7 +7,7 @@ import asyncio
 
 
 async def command(self, ctx, *args):
-    async with ClientSession() as session:
+    async with ClientSession(trust_env=True) as session:
         useridforrequest = ctx.author.id
         if len(args) == 1 and getInputType(args[0]) == Inputs.User:
             useridforrequest = getUser(args[0])
