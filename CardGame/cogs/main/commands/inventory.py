@@ -11,7 +11,8 @@ async def command(self, ctx, *args):
         useridforrequest = ctx.author.id
         if len(args) == 1 and getInputType(args[0]) == Inputs.User:
             useridforrequest = getUser(args[0])
-        params = {"page_size": str(INVENTORY_PAGE_SIZE)}
+        current_page = 1
+        params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
         async with session.get(
             f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
         ) as r:
@@ -52,7 +53,11 @@ async def command(self, ctx, *args):
                 a = 1
             else:
                 if next != None and str(reaction.emoji) == EMOJIS_SKIP:
-                    async with session.get(next) as r:
+                    current_page += 1
+                    params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
+                    async with session.get(
+                    f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
+                    ) as r:
                         result = await r.json()
                         page = page + 1
                         cards = result["results"]
@@ -71,7 +76,11 @@ async def command(self, ctx, *args):
                         await msg.edit(embed=embed)
                         delay = min(LONG_COMMAND_TIMEOUT, delay + 5)
                 elif prev != None and str(reaction.emoji) == EMOJIS_SKIPLEFT:
-                    async with session.get(prev) as r:
+                    current_page -= 1
+                    params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
+                    async with session.get(
+                    f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
+                    ) as r:
                         result = await r.json()
                         page = page - 1
                         cards = result["results"]
