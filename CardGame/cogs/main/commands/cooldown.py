@@ -3,6 +3,7 @@ from utilities.constants import *
 from utilities.functions import get_cooldown
 import json
 import discord
+from datas import common_emojis
 
 
 async def command(self, ctx):
@@ -14,7 +15,7 @@ async def command(self, ctx):
                 val = ""
                 items = json.loads(await r.text())
                 for key, value in items.items():
-                    val += f"{key} : {get_cooldown(value)}\n"
+                    val += f"{common_emojis.get_emoji(key.upper())} {key} : {get_cooldown(value)}\n"
 
                 embed = discord.Embed(title="Cooldowns", color=0x000000)
                 embed.set_author(

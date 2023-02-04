@@ -5,7 +5,9 @@ dictionary = {}
 
 
 async def get_emoji(label):
-    return dictionary[label]
+    if label in dictionary:
+        return dictionary[label]
+    return ""
 
 
 async def load():
