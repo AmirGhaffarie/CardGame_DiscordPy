@@ -4,7 +4,7 @@ from utilities.constants import *
 dictionary = {}
 
 
-async def get_emoji(label):
+def get_emoji(label):
     if label in dictionary:
         return dictionary[label]
     return ""
