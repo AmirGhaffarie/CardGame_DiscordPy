@@ -46,6 +46,9 @@ class Main(commands.Cog):
     async def weekly(self, ctx, *args):
         await weekly_command(self, ctx, *args)
 
+    @commands.command(aliases=["r", "R"])
+    async def reload(self, ctx, *args):
+        await reload_command(self, ctx, *args)
 
 async def setup(client):
     await client.add_cog(Main(client))

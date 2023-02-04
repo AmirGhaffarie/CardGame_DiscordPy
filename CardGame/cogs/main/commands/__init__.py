@@ -8,3 +8,4 @@ from .gift import command as gift_command
 from .daily import command as daily_command
 from .balance import command as balance_command
 from .weekly import command as weekly_command
+from .reload import command as reload_command
