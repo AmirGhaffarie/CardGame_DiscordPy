@@ -1,7 +1,7 @@
 from .start import command as start_command
 from .cooldown import command as cooldown_command
 from .drop import command as drop_command
-from .epicdrop import command as epicdrop_command
+from .lucky import command as lucky_command
 from .inventory import command as inventory_command
 from .view import command as view_command
 from .gift import command as gift_command

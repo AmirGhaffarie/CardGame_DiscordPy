@@ -18,9 +18,9 @@ class Main(commands.Cog):
     async def drop(self, ctx):
         await drop_command(self, ctx)
 
-    @commands.command(aliases=["ed", "ED", "Ed", "eD"])
-    async def epicdrop(self, ctx):
-        await epicdrop_command(self, ctx)
+    @commands.command(aliases=["l", "L"])
+    async def lucky(self, ctx):
+        await lucky_command(self, ctx)
 
     @commands.command(aliases=["i", "I", "inv"])
     async def inventory(self, ctx, *args):
