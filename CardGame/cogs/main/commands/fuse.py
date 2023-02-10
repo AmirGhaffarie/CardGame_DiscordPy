@@ -25,7 +25,7 @@ async def command(self, ctx, *args):
         xp_gains = []
         for card in cards:
             async with session.get(
-                f"{DB_BASE_ADDRESS}/fuse/{ctx.author.id}/{main_card}/{card}/"
+                f"{DB_BASE_ADDRESS}/fuse/{ctx.author.id}/{main_card}/{card}"
             ) as r:
                 xp_gains.append(await r.text())
         embed = discord.Embed(title="Fuse", color=0xF78589)
