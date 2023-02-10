@@ -40,8 +40,9 @@ async def command(self, ctx):
                     embed.add_field(name="Winner", value=winner.mention)
                     await msg.delete()
                     carduid = cardInfo["ID"]
+                    cardrarity = cardInfo["rarity_id"]
                     async with session.get(
-                        f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/1"
+                        f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/{cardrarity}"
                     ) as r:
                         await r.text()
                         filepath = await get_image(cardInfo["url"])

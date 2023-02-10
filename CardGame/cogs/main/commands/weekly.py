@@ -11,12 +11,12 @@ async def command(self, ctx, *args):
         await ctx.send("you need to enter a group name.")
         return
     else:
-        animename = args[0].upper()
+        groupname = args[0].upper()
         for arg in args[1:]:
-            animename += " " + arg.upper()
+            groupname += " " + arg.upper()
     async with ClientSession() as session:
         async with session.get(
-            f"{DB_BASE_ADDRESS}/weekly/{ctx.author.id}/{animename}"
+            f"{DB_BASE_ADDRESS}/weekly/{ctx.author.id}/{groupname}"
         ) as r:
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
@@ -38,23 +38,25 @@ async def command(self, ctx, *args):
                 )
 
                 for key, value in card1.items():
-                    if key != "url":
+                    if key != "url" and key != "rarity_id":
                         embed.add_field(name=f"Card1-{key}", value=value)
                 for key, value in card2.items():
-                    if key != "url":
+                    if key != "url" and key != "rarity_id":
                         embed.add_field(name=f"Card2-{key}", value=value)
                 coinsGot = random.randint(12, 16)
                 embed.add_field(name="Coins", value=f"{coinsGot}{EMOJIS_COIN}")
 
                 embed.set_image(url=f"attachment://card.png")
                 card1uid = card1["ID"]
+                card1rarity = card1["rarity_id"]
                 async with session.get(
-                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card1uid}/1"
+                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card1uid}/{card1rarity}"
                 ) as r:
                     await r.text()
                 card2uid = card2["ID"]
+                card2rarity = card2["rarity_id"]
                 async with session.get(
-                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}/1"
+                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}/{card2rarity}"
                 ) as r:
                     await r.text()
                 async with session.get(

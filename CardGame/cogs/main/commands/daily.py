@@ -22,8 +22,9 @@ async def command(self, ctx, *args):
                     ctx, items, [], "Daily", 0xFFAFAF
                 )
                 carduid = cardInfo["ID"]
+                cardrarity = cardInfo["rarity_id"]
                 async with session.get(
-                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/1"
+                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/{cardrarity}"
                 ) as r:
                     await r.text()
                 async with session.get(

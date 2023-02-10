@@ -13,6 +13,7 @@ from datetime import timedelta
 from aiohttp import ClientSession
 from PIL import Image
 
+
 def parse_time(s) -> timedelta:
     if "day" in s:
         m = re.match(
@@ -57,7 +58,7 @@ async def show_card(ctx, card, reactions, embedtitle, embedcolor):
     embed = discord.Embed(title=embedtitle, color=embedcolor)
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     for key, value in cardinfo.items():
-        if key != "url":
+        if key != "url" and key != "rarity_id":
             embed.add_field(name=key, value=value)
     filepath = await get_image(cardinfo["url"])
     file = discord.File(filepath, filename="card.png")
@@ -74,7 +75,7 @@ async def get_card_embed(ctx, card, embedtitle, embedcolor):
     embed = discord.Embed(title=embedtitle, color=embedcolor)
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     for key, value in cardinfo.items():
-        if key != "url":
+        if key != "url" and key != "rarity_id":
             embed.add_field(name=key, value=value)
     filepath = await get_image(cardinfo["url"])
     file = discord.File(filepath, filename="card.png")
@@ -106,7 +107,7 @@ async def check_can_claim(self, user, ctx) -> bool:
                     return True
 
 
-def getInputType(input: str):
+def get_input_type(input: str):
     if (
         (input.startswith("<@") or input.startswith("<@!"))
         and input.endswith(">")
@@ -118,7 +119,7 @@ def getInputType(input: str):
         return Inputs.User
     if input.isdigit():
         return Inputs.Number
-    if len(input) > 6 and input[:5].isalpha() and input[-3:].isdigit():
+    if len(input) > 6 and input[-1:].isdigit():
         return Inputs.Card
     return Inputs.Invalid
 
@@ -130,11 +131,11 @@ class Inputs(enum.Enum):
     Invalid = 4
 
 
-def getUser(input: str):
+def get_user(input: str):
     return input.strip("<").strip(">").strip("@").strip("!")
 
 
-def getCard(input):
+def get_card(input):
     return str(input).upper()
 
 
@@ -209,6 +210,6 @@ def merge_images(image_list):
 
     return filepath
 
+
 def try_delete(*files):
     i = 2
-

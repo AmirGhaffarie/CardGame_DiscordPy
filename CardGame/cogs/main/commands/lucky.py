@@ -55,8 +55,9 @@ async def command(self, ctx):
                         if str(reaction.emoji) == EMOJIS_DROP:
                             embed.add_field(name="Owner", value=ctx.author.mention)
                             carduid = json.loads(cardInfos[current])["ID"]
+                            cardrarity = json.loads(cardInfos[current])["rarity_id"]
                             async with session.get(
-                                f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/1"
+                                f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/{cardrarity}"
                             ) as r:
                                 await r.text()
                                 await msg.edit(embed=embed)
@@ -128,9 +129,10 @@ async def drop_extra(self, card, ctx):
         embed.add_field(name="Claimed", value=winner.mention)
         await msg.delete()
         carduid = cardInfo["ID"]
+        cardrarity = cardInfo["rarity_id"]
         async with ClientSession() as session:
             async with session.get(
-                f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/1"
+                f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/{cardrarity}"
             ) as r:
                 await r.text()
                 await ctx.send(embed=embed)

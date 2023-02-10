@@ -9,8 +9,8 @@ import asyncio
 async def command(self, ctx, *args):
     async with ClientSession(trust_env=True) as session:
         useridforrequest = ctx.author.id
-        if len(args) == 1 and getInputType(args[0]) == Inputs.User:
-            useridforrequest = getUser(args[0])
+        if len(args) == 1 and get_input_type(args[0]) == Inputs.User:
+            useridforrequest = get_user(args[0])
         current_page = 1
         params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
         async with session.get(
@@ -54,9 +54,12 @@ async def command(self, ctx, *args):
             else:
                 if next != None and str(reaction.emoji) == EMOJIS_SKIP:
                     current_page += 1
-                    params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
+                    params = {
+                        "page_size": str(INVENTORY_PAGE_SIZE),
+                        "page": current_page,
+                    }
                     async with session.get(
-                    f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
+                        f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
                     ) as r:
                         result = await r.json()
                         page = page + 1
@@ -77,9 +80,12 @@ async def command(self, ctx, *args):
                         delay = min(LONG_COMMAND_TIMEOUT, delay + 5)
                 elif prev != None and str(reaction.emoji) == EMOJIS_SKIPLEFT:
                     current_page -= 1
-                    params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
+                    params = {
+                        "page_size": str(INVENTORY_PAGE_SIZE),
+                        "page": current_page,
+                    }
                     async with session.get(
-                    f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
+                        f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
                     ) as r:
                         result = await r.json()
                         page = page - 1
