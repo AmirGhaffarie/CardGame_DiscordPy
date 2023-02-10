@@ -33,7 +33,7 @@ async def command(self, ctx, *args):
         embed_description = (
             f"{ctx.author.mention} Fused in **{main_card}** the following cards\n"
         )
-        for i in len(cards):
+        for i in range(0,len(cards)):
             embed_description += f"{cards[i]} - {xp_gains[i]} XP\n"
         embed_description += f"Total {sum(xp_gains)/10} Levels Gained"
         embed.description = embed_description
