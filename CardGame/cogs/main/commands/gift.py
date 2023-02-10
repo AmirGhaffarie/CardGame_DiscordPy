@@ -41,5 +41,5 @@ def get_infos(ctx, *args):
     for i in range(1, len(args)):
         if get_input_type(args[i]) != Inputs.Card:
             return 0, 0, False
-        cards[i] = get_card(args[i])
+        cards.append(get_card(args[i]))
     return get_user(args[0]), cards, True

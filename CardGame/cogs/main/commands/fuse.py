@@ -1,7 +1,7 @@
 import discord
 from aiohttp.client import ClientSession
 from utilities.constants import *
-from utilities.functions import get_user, get_input_type, get_card, Inputs
+from utilities.functions import get_input_type, get_card, Inputs
 
 
 async def command(self, ctx, *args):
@@ -45,5 +45,5 @@ def get_infos(ctx, *args):
     for i in range(1, len(args)):
         if get_input_type(args[i]) != Inputs.Card:
             return 0, 0, False
-        cards[i] = get_card(args[i])
+        cards.append(get_card(args[i]))
     return get_card(args[1]), cards, True
