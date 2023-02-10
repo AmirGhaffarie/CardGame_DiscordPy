@@ -6,7 +6,7 @@ from utilities.functions import get_user, get_input_type, get_card, Inputs
 
 async def command(self, ctx, *args):
     async with ClientSession() as session:
-        id, main_card, cards, legit = get_infos(ctx, *args)
+        main_card, cards, legit = get_infos(ctx, *args)
         if not legit:
             await ctx.send("Wrong usage of command.")
             return
@@ -39,11 +39,11 @@ async def command(self, ctx, *args):
 
 
 def get_infos(ctx, *args):
-    if len(args) < 3 or get_input_type(args[0]) != Inputs.User:
-        return 0, 0, 0, False
+    if len(args) < 2:
+        return 0, 0, False
     cards = []
-    for i in range(2, len(args)):
+    for i in range(1, len(args)):
         if get_input_type(args[i]) != Inputs.Card:
-            return 0, 0, 0, False
+            return 0, 0, False
         cards[i] = get_card(args[i])
-    return get_user(args[0]), get_card(args[1]), cards, True
+    return get_card(args[1]), cards, True
