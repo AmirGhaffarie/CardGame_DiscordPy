@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CONFIG_FILE_ADDRESS = os.path.join(BASE_DIR, "Configs", "BotConfig.cfg")
 
 
-DB_ADDRESS = "http://django.db:8020/"
+DB_ADDRESS = "http://django.db:8020"
 DB_BASE_ADDRESS = "http://django.db:8020/base"
 DB_CONFIGS_ADDRESS = "http://django.db:8020/configs"
 

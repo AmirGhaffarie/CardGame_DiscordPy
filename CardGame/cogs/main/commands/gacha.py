@@ -24,10 +24,10 @@ async def command(self, ctx):
                 ]
                 users = [user async for user in ra.users(limit=100)]
                 users = [u for u in users if u.id != self.bot.user.id]
-                if len(users) < 2:
+                if len(users) < 1:
                     loseembed = discord.Embed(
                         title="Drop Lost",
-                        description="The dropped card has been lost \n due to not enough reactions.",
+                        description="The dropped card has been lost \n due to no reactions.",
                         color=0xFF1010,
                     )
                     loseembed.set_author(

@@ -8,10 +8,11 @@ import uuid
 import discord
 import aiofiles
 import importlib
-from utilities.constants import *
+import constants
 from datetime import timedelta
 from aiohttp import ClientSession
 from PIL import Image
+import asyncio
 
 
 def parse_time(s) -> timedelta:
@@ -40,7 +41,7 @@ def parse_time(s) -> timedelta:
 def get_cooldown(t):
     time = parse_time(t)
     if time < timedelta(seconds=0):
-        return EMOJIS_CHECKMARK
+        return constants.EMOJIS_CHECKMARK
     else:
         cooldown = ""
         if time.days > 0:
@@ -59,7 +60,7 @@ async def show_card(ctx, card, reactions, embedtitle, embedcolor):
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     for key, value in cardinfo.items():
         if key != "url" and key != "rarity_id":
-            embed.add_field(name=key, value=value)
+            embed.add_field(name=key, value=value, inline=False)
     filepath = await get_image(cardinfo["url"])
     file = discord.File(filepath, filename="card.png")
     embed.set_image(url="attachment://card.png")
@@ -76,7 +77,7 @@ async def get_card_embed(ctx, card, embedtitle, embedcolor):
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     for key, value in cardinfo.items():
         if key != "url" and key != "rarity_id":
-            embed.add_field(name=key, value=value)
+            embed.add_field(name=key, value=value, inline=False)
     filepath = await get_image(cardinfo["url"])
     file = discord.File(filepath, filename="card.png")
     embed.set_image(url="attachment://card.png")
@@ -85,7 +86,7 @@ async def get_card_embed(ctx, card, embedtitle, embedcolor):
 
 async def check_can_claim(self, user, ctx) -> bool:
     async with ClientSession() as session:
-        async with session.get(f"{DB_BASE_ADDRESS}/cds/{user.id}") as r:
+        async with session.get(f"{constants.DB_BASE_ADDRESS}/cds/{user.id}") as r:
             if r.status == 404:
                 await ctx.send(f'{user.mention} register with "start" first.')
                 return False
@@ -101,7 +102,7 @@ async def check_can_claim(self, user, ctx) -> bool:
                 else:
                     async with ClientSession() as session:
                         async with session.get(
-                            f"{DB_BASE_ADDRESS}/claim/{user.id}"
+                            f"{constants.DB_BASE_ADDRESS}/claim/{user.id}"
                         ) as r:
                             await r.text()
                     return True
@@ -140,17 +141,17 @@ def get_card(input):
 
 
 def get_tempfilename():
-    filename = path.join(TEMP_FILE_ADDRESS, f"{uuid.uuid4()}.png")
+    filename = path.join(constants.TEMP_FILE_ADDRESS, f"{uuid.uuid4()}.png")
     while path.exists(filename):
-        filename = path.join(TEMP_FILE_ADDRESS, f"{uuid.uuid4()}.png")
+        filename = path.join(constants.TEMP_FILE_ADDRESS, f"{uuid.uuid4()}.png")
     return filename
 
 
 async def get_image(url):
-    if LOCAL_MEDIA_FILES:
-        filename = path.join(LOCAL_MEDIA_ADDRESS, url[1:])
+    if constants.LOCAL_MEDIA_FILES:
+        filename = path.join(constants.LOCAL_MEDIA_ADDRESS, url[1:])
     else:
-        address = REMOTE_MEDIA_ADDRESS + url
+        address = constants.REMOTE_MEDIA_ADDRESS + url
         async with ClientSession() as session:
             async with session.get(address) as r:
                 filename = get_tempfilename()
@@ -162,16 +163,16 @@ async def get_image(url):
 
 def read_config(section, key):
     parser = configparser.ConfigParser()
-    parser.read(CONFIG_FILE_ADDRESS)
+    parser.read(constants.CONFIG_FILE_ADDRESS)
     return parser.get(section, key)
 
 
 def get_databaseconfigs_dir():
-    return os.path.join(BASE_DIR, "datas")
+    return os.path.join(constants.BASE_DIR, "datas")
 
 
 def get_cogs_dir():
-    return os.path.join(BASE_DIR, "cogs")
+    return os.path.join(constants.BASE_DIR, "cogs")
 
 
 async def load_cogs(bot):
@@ -213,3 +214,32 @@ def merge_images(image_list):
 
 def try_delete(*files):
     i = 2
+
+TestDB = "http://127.0.0.1:8000"
+
+
+async def get_json_response(app, command, params):
+    async with ClientSession() as session:
+        async with session.get(f"{TestDB}/{app}/{command}", params=params) as response:
+            status = response.status
+            if status == 200:
+                content = await response.json()
+                return True, content
+            else:
+                return False, status
+
+async def get_text_response(app, command, params):
+    async with ClientSession() as session:
+        async with session.get(f"{TestDB}/{app}/{command}", params=params) as response:
+            status = response.status
+            if status == 200:
+                content = await response.text()
+                return True, content
+            else:
+                return False, status
+
+def get_params(*args):
+    params = {}
+    for i in range(0, len(args), 2):
+        params[str(args[i])] = str(args[i+1])
+    return params
