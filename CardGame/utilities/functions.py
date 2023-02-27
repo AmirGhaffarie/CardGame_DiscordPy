@@ -59,7 +59,7 @@ async def show_card(ctx, card, reactions, embedtitle, embedcolor):
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     for key, value in cardinfo.items():
         if key != "url" and key != "rarity_id":
-            embed.add_field(name=key, value=value)
+            embed.add_field(name=key, value=value, inline=False)
     filepath = await get_image(cardinfo["url"])
     file = discord.File(filepath, filename="card.png")
     embed.set_image(url="attachment://card.png")
@@ -76,7 +76,7 @@ async def get_card_embed(ctx, card, embedtitle, embedcolor):
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     for key, value in cardinfo.items():
         if key != "url" and key != "rarity_id":
-            embed.add_field(name=key, value=value)
+            embed.add_field(name=key, value=value, inline=False)
     filepath = await get_image(cardinfo["url"])
     file = discord.File(filepath, filename="card.png")
     embed.set_image(url="attachment://card.png")
