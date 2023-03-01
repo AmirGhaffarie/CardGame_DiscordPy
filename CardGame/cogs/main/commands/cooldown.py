@@ -21,5 +21,6 @@ async def command(self, ctx):
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
+                embed.set_thumbnail(ICON_TOPRIGHT)
                 embed.description = val
                 await ctx.send(embed=embed)

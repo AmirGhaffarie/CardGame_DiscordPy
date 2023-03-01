@@ -41,7 +41,7 @@ def parse_time(s) -> timedelta:
 def get_cooldown(t):
     time = parse_time(t)
     if time < timedelta(seconds=0):
-        return common_emojis.get_emoji("COOLDOWN_CHECK")
+        return common_emojis.get_emoji(EMOJIS_COOLDOWN_CHECK)
     else:
         cooldown = ""
         if time.days > 0:
