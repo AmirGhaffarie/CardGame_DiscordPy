@@ -1,6 +1,11 @@
 from aiohttp import ClientSession
 from utilities.constants import *
-from utilities.functions import get_image, get_cooldown, show_card
+from utilities.functions import (
+    get_image,
+    get_cooldown,
+    show_card,
+    add_duplicate_to_embed,
+)
 import discord
 import random
 from asyncio import sleep
@@ -46,8 +51,9 @@ async def command(self, ctx):
                     async with session.get(
                         f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/{cardrarity}"
                     ) as r:
-                        await r.text()
+                        duplicate = bool(await r.text())
                         filepath = await get_image(cardInfo["url"])
                         file = discord.File(filepath, filename="card.png")
                         embed.set_image(url="attachment://card.png")
+                        add_duplicate_to_embed(duplicate, embed)
                         await ctx.send(file=file, embed=embed)

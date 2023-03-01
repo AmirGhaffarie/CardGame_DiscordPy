@@ -7,7 +7,7 @@ from utilities.functions import (
     show_card,
     check_can_claim,
     get_image,
-    try_delete,
+    add_duplicate_to_embed,
 )
 from datetime import datetime, timezone
 import json
@@ -61,7 +61,8 @@ async def command(self, ctx):
                             async with session.get(
                                 f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/{cardrarity}"
                             ) as r:
-                                await r.text()
+                                duplicate = bool(await r.text())
+                                add_duplicate_to_embed(duplicate, embed)
                                 await msg.edit(embed=embed)
                                 await msg.clear_reactions()
                             cardInfos.pop(current)
@@ -137,7 +138,8 @@ async def drop_extra(self, card, ctx):
             async with session.get(
                 f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/{cardrarity}"
             ) as r:
-                await r.text()
+                duplicate = bool(await r.text())
+                add_duplicate_to_embed(duplicate, embed)
                 await ctx.send(embed=embed)
     else:
         loseembed = discord.Embed(
