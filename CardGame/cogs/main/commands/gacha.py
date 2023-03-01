@@ -15,7 +15,7 @@ async def command(self, ctx):
             elif r.status == 210:
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
-                emoji = common_emojis.get_emoji("LUCKY")
+                emoji = common_emojis.get_emoji("GACHA")
                 cardInfo, embed, msg = await show_card(
                     ctx, await r.text(), [EMOJIS_DROP], f"{emoji}Gacha", 0xFFAFAF
                 )
