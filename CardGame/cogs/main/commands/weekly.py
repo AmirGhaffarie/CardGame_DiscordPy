@@ -4,6 +4,7 @@ from utilities.constants import *
 from utilities.functions import get_cooldown, get_image, try_delete, merge_images
 import json
 import discord
+from datas import common_emojis
 
 
 async def command(self, ctx, *args):
@@ -37,14 +38,11 @@ async def command(self, ctx, *args):
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
 
-                for key, value in card1.items():
-                    if key != "url" and key != "rarity_id":
-                        embed.add_field(name=f"Card1-{key}", value=value)
-                for key, value in card2.items():
-                    if key != "url" and key != "rarity_id":
-                        embed.add_field(name=f"Card2-{key}", value=value)
+                embed.description = card1["CardDescription"] + "\n" + card2["CardDescription"]
+
                 coinsGot = random.randint(12, 16)
-                embed.add_field(name="Coins", value=f"{coinsGot}{EMOJIS_COIN}")
+                emoji = common_emojis.get_emoji("GENERIC_COIN")
+                embed.add_field(name="Coins", value=f"{coinsGot}{emoji}")
 
                 embed.set_image(url=f"attachment://card.png")
                 card1uid = card1["ID"]

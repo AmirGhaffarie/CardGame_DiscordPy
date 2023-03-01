@@ -1,6 +1,7 @@
 import discord
 from aiohttp.client import ClientSession
 from utilities.constants import *
+from datas import common_emojis
 
 
 async def command(self, ctx):
@@ -14,5 +15,6 @@ async def command(self, ctx):
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
                 coins = await r.text()
-                embed.description = f"You have {coins} {EMOJIS_COIN} coins."
+                emoji = common_emojis.get_emoji("GENERIC_COIN")
+                embed.description = f"You have {coins} {emoji} coins."
                 await ctx.send(embed=embed)

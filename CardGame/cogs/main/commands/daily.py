@@ -1,6 +1,7 @@
 from aiohttp import ClientSession
 from utilities.constants import *
-from utilities.functions import get_cooldown, show_card
+from utilities.functions import get_cooldown, get_card_embed
+from datas import common_emojis
 import random
 import json
 
@@ -14,13 +15,13 @@ async def command(self, ctx, *args):
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
                 coinsGot = random.randint(1, 3)
-                respond = await r.text()
-                items = json.loads(respond)
-                items["Coins"] = str(coinsGot) + EMOJIS_COIN
-                items = json.dumps(items)
-                cardInfo, embed, msg = await show_card(
-                    ctx, items, [], "Daily", 0xFFAFAF
+                emoji = common_emojis.get_emoji("GENERIC_COIN")
+                cardInfo, embed, file = await get_card_embed(
+                    ctx, await r.text(), "Daily", 0xFFAFAF
                 )
+                embed.add_field(name="Coins", value=f"{coinsGot}{emoji}")
+                await ctx.send(file=file, embed=embed)
+
                 carduid = cardInfo["ID"]
                 cardrarity = cardInfo["rarity_id"]
                 async with session.get(

@@ -78,7 +78,6 @@ async def command(self, ctx):
                                 if current < 2:
                                     await msg.add_reaction(EMOJIS_SKIP)
                                 await msg.edit(embed=embed)
-                                try_delete(file.filename)
                 if collected:
                     await asyncio.gather(
                         drop_extra(self, cardInfos[0], ctx),
@@ -148,4 +147,3 @@ async def drop_extra(self, card, ctx):
         file = discord.File(filepath, filename="card.png")
         embed.set_image(url="attachment://card.png")
         await ctx.send(file=file, embed=loseembed)
-        try_delete(file.filename)

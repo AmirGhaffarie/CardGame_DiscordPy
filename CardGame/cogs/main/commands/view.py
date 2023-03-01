@@ -29,9 +29,7 @@ async def command(self, ctx, *args):
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
-                for key, value in cardinfo.items():
-                    if key != "url" and key != "rarity_id":
-                        embed.add_field(name=key, value=value)
+                embed.description = cardinfo["CardDescription"]
                 filepath = await get_image(cardinfo["url"])
                 file = discord.File(filepath, filename="card.png")
                 embed.set_image(url="attachment://card.png")
