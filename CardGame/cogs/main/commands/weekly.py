@@ -38,7 +38,9 @@ async def command(self, ctx, *args):
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
 
-                embed.description = card1["CardDescription"] + "\n" + card2["CardDescription"]
+                embed.description = (
+                    card1["CardDescription"] + "\n\n" + card2["CardDescription"]
+                )
 
                 coinsGot = random.randint(12, 16)
                 emoji = common_emojis.get_emoji("GENERIC_COIN")
