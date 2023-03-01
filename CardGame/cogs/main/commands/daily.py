@@ -12,9 +12,15 @@ async def command(self, ctx, *args):
             elif r.status == 210:
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
-
+                coinsGot = random.randint(1, 3)
+                emoji = common_emojis.get_emoji("GENERIC_COIN")
+                emoji2 = common_emojis.get_emoji("DAILY")
+                cardInfo, embed, file = await get_card_embed(
+                    ctx, await r.text(), f"{emoji2}Daily", 0xFFAFAF
+                )
                 duplicate = False
-
+                carduid = cardInfo["ID"]
+                cardrarity = cardInfo["rarity_id"]
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/{cardrarity}"
                 ) as r2:
@@ -24,17 +30,8 @@ async def command(self, ctx, *args):
                 ) as r3:
                     await r3.text()
 
-                coinsGot = random.randint(1, 3)
-                emoji = common_emojis.get_emoji("GENERIC_COIN")
-                emoji2 = common_emojis.get_emoji("DAILY")
-                cardInfo, embed, file = await get_card_embed(
-                    ctx, await r.text(), f"{emoji2}Daily", 0xFFAFAF
-                )
-
                 add_duplicate_to_embed(duplicate, embed)
-
+                
                 embed.add_field(name="Coins", value=f"{coinsGot}{emoji}")
                 await ctx.send(file=file, embed=embed)
 
-                carduid = cardInfo["ID"]
-                cardrarity = cardInfo["rarity_id"]

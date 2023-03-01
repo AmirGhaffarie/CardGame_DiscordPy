@@ -70,10 +70,10 @@ async def show_card(ctx, card, reactions, embedtitle, embedcolor):
 def add_duplicate_to_embed(duplicate, embed):
     if duplicate:
         emoji = common_emojis.get_emoji("GENERIC_DUPLICATE")
-        embed.description += f"> \n> \n {emoji} Duplicate"
+        embed.description += f"\n> \n> {emoji} **Duplicate**"
     else:
         emoji = common_emojis.get_emoji("GENERIC_NEWCARD")
-        embed.description += f"> \n > \n {emoji} New Card!"
+        embed.description += f"\n > \n> {emoji} **New Card!**"
 
 async def get_card_embed(ctx, card, embedtitle, embedcolor):
     cardinfo = json.loads(card)

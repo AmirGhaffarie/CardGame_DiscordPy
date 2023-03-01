@@ -1,7 +1,13 @@
 import random
 from aiohttp import ClientSession
 from utilities.constants import *
-from utilities.functions import get_cooldown, get_image, try_delete, merge_images
+from utilities.functions import (
+    get_cooldown,
+    get_image,
+    try_delete,
+    merge_images,
+    add_duplicate_to_embed,
+)
 import json
 import discord
 from datas import common_emojis
@@ -39,9 +45,7 @@ async def command(self, ctx, *args):
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
 
-                embed.description = (
-                    card1["CardDescription"] + "\n\n" + card2["CardDescription"]
-                )
+                embed.description = card1["CardDescription"]
 
                 coinsGot = random.randint(12, 16)
                 emoji = common_emojis.get_emoji("GENERIC_COIN")
@@ -53,16 +57,21 @@ async def command(self, ctx, *args):
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card1uid}/{card1rarity}"
                 ) as r:
-                    await r.text()
+                    duplicate = bool(await r.text())
+                    add_duplicate_to_embed(duplicate, embed)
+
+                embed.description += "\n\n" + card2["CardDescription"]
                 card2uid = card2["ID"]
                 card2rarity = card2["rarity_id"]
+
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}/{card2rarity}"
                 ) as r:
-                    await r.text()
+                    duplicate = bool(await r.text())
+                    add_duplicate_to_embed(duplicate, embed)
+
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
                 ) as r2:
                     await r2.text()
                 await ctx.send(file=file, embed=embed)
-                try_delete(file.filename)
