@@ -8,6 +8,7 @@ import uuid
 import discord
 import aiofiles
 import importlib
+from datas import common_emojis
 from utilities.constants import *
 from datetime import timedelta
 from aiohttp import ClientSession
@@ -40,7 +41,7 @@ def parse_time(s) -> timedelta:
 def get_cooldown(t):
     time = parse_time(t)
     if time < timedelta(seconds=0):
-        return EMOJIS_CHECKMARK
+        return common_emojis("COOLDOWN_CHECK")
     else:
         cooldown = ""
         if time.days > 0:
