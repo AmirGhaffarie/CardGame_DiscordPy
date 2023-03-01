@@ -16,8 +16,9 @@ async def command(self, ctx, *args):
             else:
                 coinsGot = random.randint(1, 3)
                 emoji = common_emojis.get_emoji("GENERIC_COIN")
+                emoji2 = common_emojis.get_emoji("DAILY")
                 cardInfo, embed, file = await get_card_embed(
-                    ctx, await r.text(), "Daily", 0xFFAFAF
+                    ctx, await r.text(), f"{emoji2}Daily", 0xFFAFAF
                 )
                 embed.add_field(name="Coins", value=f"{coinsGot}{emoji}")
                 await ctx.send(file=file, embed=embed)

@@ -1,4 +1,5 @@
 from aiohttp import ClientSession
+from datas import common_emojis
 from utilities.constants import *
 from utilities.functions import (
     get_card_embed,
@@ -25,11 +26,12 @@ async def command(self, ctx):
                 cardInfos = json.loads(await r.text())["res"]
                 starttime = datetime.now(timezone.utc)
                 current = 0
+                emoji = common_emojis.get_emoji("LUCKY")
                 cardInfo, embed, msg = await show_card(
                     ctx,
                     cardInfos[current],
                     [EMOJIS_DROP, EMOJIS_SKIP],
-                    "EpicDrop",
+                    f"{emoji}Lucky",
                     0xFFAFAF,
                 )
 
@@ -68,8 +70,9 @@ async def command(self, ctx):
                         elif str(reaction.emoji) == EMOJIS_SKIP:
                             if current < 2:
                                 current += 1
+                                emoji = common_emojis.get_emoji("LUCKY")
                                 cardInfo, embed, file = await get_card_embed(
-                                    ctx, cardInfos[current], "EpicDrop", 0xFFAFAF
+                                    ctx, cardInfos[current], f"{emoji}Lucky", 0xFFAFAF
                                 )
                                 await msg.clear_reactions()
                                 await msg.remove_attachments(msg.attachments)
@@ -97,8 +100,9 @@ async def command(self, ctx):
 
 
 async def drop_extra(self, card, ctx):
+    emoji = common_emojis.get_emoji("CLAIM")
     cardInfo, embed, msg = await show_card(
-        ctx, card, [EMOJIS_DROP], "Claimable", 0xFBD021
+        ctx, card, [EMOJIS_DROP], f"{emoji}Claimable", 0xFBD021
     )
 
     def check(reaction, user):

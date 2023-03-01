@@ -4,6 +4,7 @@ from utilities.functions import get_image, get_cooldown, show_card
 import discord
 import random
 from asyncio import sleep
+from datas import common_emojis
 
 
 async def command(self, ctx):
@@ -14,8 +15,9 @@ async def command(self, ctx):
             elif r.status == 210:
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
+                emoji = common_emojis.get_emoji("LUCKY")
                 cardInfo, embed, msg = await show_card(
-                    ctx, await r.text(), [EMOJIS_DROP], "Drop", 0xFFAFAF
+                    ctx, await r.text(), [EMOJIS_DROP], f"{emoji}Gacha", 0xFFAFAF
                 )
                 await sleep(DROP_TIMEOUT)
                 msg = await msg.channel.fetch_message(msg.id)

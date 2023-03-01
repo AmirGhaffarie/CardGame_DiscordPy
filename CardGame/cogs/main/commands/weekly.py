@@ -33,7 +33,8 @@ async def command(self, ctx, *args):
                 file2path = await get_image(card2["url"])
                 merged_image = merge_images([file1path, file2path])
                 file = discord.File(merged_image, filename="card.png")
-                embed = discord.Embed(title="Weekly", color=0xFF00FF)
+                emoji = common_emojis.get_emoji("WEEKLY")
+                embed = discord.Embed(title=f"{emoji}Weekly", color=0xFF00FF)
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
