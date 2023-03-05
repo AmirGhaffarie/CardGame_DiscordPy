@@ -57,7 +57,7 @@ async def command(self, ctx, *args):
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card1uid}/{card1rarity}"
                 ) as r:
-                    duplicate = bool(await r.text())
+                    duplicate = await r.text()
                     add_duplicate_to_embed(duplicate, embed)
 
                 embed.description += "\n\n" + card2["CardDescription"]
@@ -67,7 +67,7 @@ async def command(self, ctx, *args):
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}/{card2rarity}"
                 ) as r:
-                    duplicate = bool(await r.text())
+                    duplicate = await r.text()
                     add_duplicate_to_embed(duplicate, embed)
 
                 async with session.get(

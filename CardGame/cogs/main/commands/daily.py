@@ -24,7 +24,7 @@ async def command(self, ctx, *args):
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/{cardrarity}"
                 ) as r2:
-                    duplicate = bool(await r2.text())
+                    duplicate = await r2.text()
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
                 ) as r3:

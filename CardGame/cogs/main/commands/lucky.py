@@ -61,7 +61,7 @@ async def command(self, ctx):
                             async with session.get(
                                 f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/{cardrarity}"
                             ) as r:
-                                duplicate = bool(await r.text())
+                                duplicate = await r.text()
                                 add_duplicate_to_embed(duplicate, embed)
                                 await msg.edit(embed=embed)
                                 await msg.clear_reactions()
@@ -138,7 +138,7 @@ async def drop_extra(self, card, ctx):
             async with session.get(
                 f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/{cardrarity}"
             ) as r:
-                duplicate = bool(await r.text())
+                duplicate = await r.text()
                 add_duplicate_to_embed(duplicate, embed)
                 await ctx.send(embed=embed)
     else:

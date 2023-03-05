@@ -51,7 +51,7 @@ async def command(self, ctx):
                     async with session.get(
                         f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/{cardrarity}"
                     ) as r:
-                        duplicate = bool(await r.text())
+                        duplicate = await r.text()
                         filepath = await get_image(cardInfo["url"])
                         file = discord.File(filepath, filename="card.png")
                         embed.set_image(url="attachment://card.png")
