@@ -211,10 +211,4 @@ def merge_images(image_list):
     filepath = get_tempfilename()
     new_im.save(filepath)
 
-    try_delete(image_list)
-
     return filepath
-
-
-def try_delete(*files):
-    i = 2

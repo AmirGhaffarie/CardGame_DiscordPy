@@ -16,7 +16,7 @@ LONG_COMMAND_TIMEOUT = 120
 # settings
 BASE_DIR = Path(__file__).resolve().parent.parent
 CONFIG_FILE_ADDRESS = os.path.join(BASE_DIR, "Configs", "BotConfig.cfg")
-
+LOCALIZATION_FILE_ADDRESS = os.path.join(BASE_DIR, "Configs", "localization.xlsx")
 
 DB_ADDRESS = "http://django.db:8020"
 DB_BASE_ADDRESS = "http://django.db:8020/base"
