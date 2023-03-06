@@ -4,7 +4,6 @@ from utilities.constants import *
 from utilities.functions import (
     get_cooldown,
     get_image,
-    try_delete,
     merge_images,
     add_duplicate_to_embed,
 )

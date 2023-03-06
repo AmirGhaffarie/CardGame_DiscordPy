@@ -8,7 +8,6 @@ from utilities.functions import (
     get_user,
     get_input_type,
     Inputs,
-    try_delete,
 )
 
 
@@ -35,7 +34,6 @@ async def command(self, ctx, *args):
                 embed.set_image(url="attachment://card.png")
                 embed.add_field(name="Owner", value=f"<@{id}>")
                 await ctx.send(file=file, embed=embed)
-                try_delete(file.filename)
 
 
 def getInfos(ctx, *args):
