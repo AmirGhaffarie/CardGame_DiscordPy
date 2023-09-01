@@ -15,7 +15,7 @@ class Main(commands.Cog):
         await cooldown_command(self, ctx)
 
     @commands.command(aliases=["d", "D"])
-    async def gacha(self, ctx):
+    async def drop(self, ctx):
         await gacha_command(self, ctx)
 
     @commands.command(aliases=["l", "L"])
