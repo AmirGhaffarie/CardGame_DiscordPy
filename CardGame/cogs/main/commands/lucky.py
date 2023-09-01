@@ -26,11 +26,13 @@ async def command(self, ctx):
                 cardInfos = json.loads(await r.text())["res"]
                 starttime = datetime.now(timezone.utc)
                 current = 0
+                drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
+                skip_emoji = common_emojis.get_emoji(EMOJIS_SKIP)
                 emoji = common_emojis.get_emoji("LUCKY")
                 cardInfo, embed, msg = await show_card(
                     ctx,
                     cardInfos[current],
-                    [EMOJIS_DROP, EMOJIS_SKIP],
+                    [drop_emoji, EMOJIS_SKIP],
                     f"{emoji}Lucky",
                     0xFFAFAF,
                 )
@@ -39,7 +41,7 @@ async def command(self, ctx):
                     return (
                         reaction.message.id == msg.id
                         and user == ctx.author
-                        and str(reaction.emoji) in [EMOJIS_DROP, EMOJIS_SKIP]
+                        and str(reaction.emoji) in [drop_emoji, skip_emoji]
                     )
 
                 collected = False
@@ -54,7 +56,7 @@ async def command(self, ctx):
                         a = 1
                     else:
                         msg = await msg.channel.fetch_message(msg.id)
-                        if str(reaction.emoji) == EMOJIS_DROP:
+                        if str(reaction.emoji) == drop_emoji:
                             embed.add_field(name="Owner", value=ctx.author.mention)
                             carduid = json.loads(cardInfos[current])["ID"]
                             cardrarity = json.loads(cardInfos[current])["rarity_id"]
@@ -68,7 +70,7 @@ async def command(self, ctx):
                             cardInfos.pop(current)
                             collected = True
                             break
-                        elif str(reaction.emoji) == EMOJIS_SKIP:
+                        elif str(reaction.emoji) == skip_emoji:
                             if current < 2:
                                 current += 1
                                 emoji = common_emojis.get_emoji("LUCKY")
@@ -78,9 +80,9 @@ async def command(self, ctx):
                                 await msg.clear_reactions()
                                 await msg.remove_attachments(msg.attachments)
                                 await msg.add_files(file)
-                                await msg.add_reaction(EMOJIS_DROP)
+                                await msg.add_reaction(drop_emoji)
                                 if current < 2:
-                                    await msg.add_reaction(EMOJIS_SKIP)
+                                    await msg.add_reaction(skip_emoji)
                                 await msg.edit(embed=embed)
                 if collected:
                     await asyncio.gather(
@@ -101,9 +103,10 @@ async def command(self, ctx):
 
 
 async def drop_extra(self, card, ctx):
+    drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
     emoji = common_emojis.get_emoji("CLAIM")
     cardInfo, embed, msg = await show_card(
-        ctx, card, [EMOJIS_DROP], f"{emoji}Claimable", 0xFBD021
+        ctx, card, [drop_emoji], f"{emoji}Claimable", 0xFBD021
     )
 
     def check(reaction, user):
@@ -111,7 +114,7 @@ async def drop_extra(self, card, ctx):
             reaction.message.id == msg.id
             and user != ctx.author
             and user != self.bot.user
-            and str(reaction.emoji) == EMOJIS_DROP
+            and str(reaction.emoji) == drop_emoji
         )
 
     claimed = False

@@ -1,14 +1,17 @@
 import os
 from pathlib import Path
+from datas import common_emojis
 
 # emojis
-EMOJIS_DROP = "<:Drop:893384648057552917>"
-EMOJIS_SKIP = "<:Skip:895004188348657724>"
-EMOJIS_SKIPLEFT = "<:SkipLeft:901033048148148267>"
+EMOJIS_DROP = "GENERIC_CHOOSEARROW"
+EMOJIS_SKIP = "GENERIC_RIGHTARROW"
+EMOJIS_SKIPLEFT = "GENERIC_LEFTARROW"
 EMOJIS_COOLDOWN_CHECK = "COOLDOWN_CHECK"
 EMOJIS_COIN = "<:Coin:931482402419789824>"
 
-ICON_TOPRIGHT = "https://i.pinimg.com/originals/ed/76/df/ed76df1b5da78ca7317a01cf9a648d0c.gif"
+ICON_TOPRIGHT = (
+    "https://i.pinimg.com/originals/ed/76/df/ed76df1b5da78ca7317a01cf9a648d0c.gif"
+)
 
 # timers
 DROP_TIMEOUT = 20

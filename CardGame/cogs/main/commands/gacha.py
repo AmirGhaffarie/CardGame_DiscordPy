@@ -20,13 +20,14 @@ async def command(self, ctx):
             elif r.status == 210:
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
+                drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
                 emoji = common_emojis.get_emoji("GACHA")
                 cardInfo, embed, msg = await show_card(
-                    ctx, await r.text(), [EMOJIS_DROP], f"{emoji}Gacha", 0xFFAFAF
+                    ctx, await r.text(), [drop_emoji], f"{emoji}Gacha", 0xFFAFAF
                 )
                 await sleep(DROP_TIMEOUT)
                 msg = await msg.channel.fetch_message(msg.id)
-                ra = list(filter(lambda x: str(x.emoji) == EMOJIS_DROP, msg.reactions))[
+                ra = list(filter(lambda x: str(x.emoji) == drop_emoji, msg.reactions))[
                     0
                 ]
                 users = [user async for user in ra.users(limit=100)]

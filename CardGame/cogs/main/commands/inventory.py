@@ -25,20 +25,22 @@ async def command(self, ctx, *args):
             embed = discord.Embed(
                 title=get_title(page, INVENTORY_PAGE_SIZE, count), color=0xFFFF00
             )
+            next_emoji = common_emojis.get_emoji(EMOJIS_SKIP)
+            prev_emoji = common_emojis.get_emoji(EMOJIS_SKIPLEFT)
             embdisc = ""
             for card in cards:
                 embdisc += card + "\n"
             embed.description = embdisc
             msg: discord.Message = await ctx.send(embed=embed)
             starttime = datetime.now(timezone.utc)
-        for reaction in [EMOJIS_SKIPLEFT, EMOJIS_SKIP]:
+        for reaction in [prev_emoji, next_emoji]:
             await msg.add_reaction(reaction)
 
         def check(reaction, user):
             return (
                 reaction.message.id == msg.id
                 and user == ctx.author
-                and str(reaction.emoji) in [EMOJIS_SKIPLEFT, EMOJIS_SKIP]
+                and str(reaction.emoji) in [prev_emoji, next_emoji]
             )
 
         delay = 0
@@ -52,7 +54,7 @@ async def command(self, ctx, *args):
             except asyncio.TimeoutError:
                 a = 1
             else:
-                if next != None and str(reaction.emoji) == EMOJIS_SKIP:
+                if next != None and str(reaction.emoji) == next_emoji:
                     current_page += 1
                     params = {
                         "page_size": str(INVENTORY_PAGE_SIZE),
@@ -78,7 +80,7 @@ async def command(self, ctx, *args):
                         await reaction.remove(ctx.author)
                         await msg.edit(embed=embed)
                         delay = min(LONG_COMMAND_TIMEOUT, delay + 5)
-                elif prev != None and str(reaction.emoji) == EMOJIS_SKIPLEFT:
+                elif prev != None and str(reaction.emoji) == prev_emoji:
                     current_page -= 1
                     params = {
                         "page_size": str(INVENTORY_PAGE_SIZE),
