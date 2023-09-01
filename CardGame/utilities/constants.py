@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from datas import common_emojis
 
 # emojis
 EMOJIS_DROP = "GENERIC_CHOOSEARROW"
