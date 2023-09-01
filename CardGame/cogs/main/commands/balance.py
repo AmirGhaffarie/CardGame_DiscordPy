@@ -10,7 +10,9 @@ async def command(self, ctx):
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
             else:
-                embed = discord.Embed(title="Balance", color=0x20FF20)
+                emoji = common_emojis.get_emoji("WALLET")
+
+                embed = discord.Embed(title=f"{emoji}Balance", color=0x20FF20)
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
