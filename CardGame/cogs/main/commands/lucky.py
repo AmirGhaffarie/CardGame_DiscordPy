@@ -32,7 +32,7 @@ async def command(self, ctx):
                 cardInfo, embed, msg = await show_card(
                     ctx,
                     cardInfos[current],
-                    [drop_emoji, EMOJIS_SKIP],
+                    [drop_emoji, skip_emoji],
                     f"{emoji}Lucky",
                     0xFFAFAF,
                 )
