@@ -32,7 +32,6 @@ async def command(self, ctx, *args):
                 filepath = await get_image(cardinfo["url"])
                 file = discord.File(filepath, filename="card.png")
                 embed.set_image(url="attachment://card.png")
-                embed.add_field(name="Owner", value=f"<@{id}>")
                 await ctx.send(file=file, embed=embed)
 
 
