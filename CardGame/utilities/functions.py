@@ -69,7 +69,6 @@ async def show_card(ctx, card, reactions, embedtitle, embedcolor):
 
 
 def add_duplicate_to_embed(duplicate, embed):
-    ls_emoji = common_emojis.get_emoji("GENERIC_LINESTART")
     if duplicate == "True":
         emoji = common_emojis.get_emoji("GENERIC_DUPLICATE")
         embed.description += f"\n> {emoji} **Duplicate**"
@@ -77,6 +76,9 @@ def add_duplicate_to_embed(duplicate, embed):
         emoji = common_emojis.get_emoji("GENERIC_NEWCARD")
         embed.description += f"\n> {emoji} **New Card!**"
 
+def add_coins_to_embed(coins, embed):
+    emoji = common_emojis.get_emoji("GENERIC_COIN")
+    embed.description += f"\n> You Earned **{coins}** {emoji}"
 
 async def get_card_embed(ctx, card, embedtitle, embedcolor):
     cardinfo = json.loads(card)

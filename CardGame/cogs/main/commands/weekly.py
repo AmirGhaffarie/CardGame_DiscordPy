@@ -6,6 +6,7 @@ from utilities.functions import (
     get_image,
     merge_images,
     add_duplicate_to_embed,
+    add_coins_to_embed,
 )
 import json
 import discord
@@ -47,8 +48,6 @@ async def command(self, ctx, *args):
                 embed.description = card1["CardDescription"]
 
                 coinsGot = random.randint(12, 16)
-                emoji = common_emojis.get_emoji("GENERIC_COIN")
-                embed.add_field(name="Coins", value=f"{coinsGot}{emoji}")
 
                 embed.set_image(url=f"attachment://card.png")
                 card1uid = card1["ID"]
@@ -73,4 +72,5 @@ async def command(self, ctx, *args):
                     f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
                 ) as r2:
                     await r2.text()
+                add_coins_to_embed(coinsGot, embed)
                 await ctx.send(file=file, embed=embed)

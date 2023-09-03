@@ -114,4 +114,5 @@ def get_title(page, perpage, count):
     firstindex = (page - 1) * perpage + 1
     lastindex = firstindex + perpage - 1
     lastindex = min(lastindex, count)
-    return f"Inventory {firstindex}-{lastindex} from {count} cards"
+    emoji = common_emojis.get_emoji("BACKPACK")
+    return f"{emoji}Inventory\n**{firstindex}**->**{lastindex}** from **{count}**"
