@@ -78,7 +78,7 @@ def add_duplicate_to_embed(duplicate, embed):
 
 def add_coins_to_embed(coins, embed):
     emoji = common_emojis.get_emoji("GENERIC_COIN")
-    embed.description += f"\n> You Earned **{coins}** {emoji}"
+    embed.description += f"\nStarz\nYou Earned **{coins}** {emoji}"
 
 async def get_card_embed(ctx, card, embedtitle, embedcolor):
     cardinfo = json.loads(card)
