@@ -72,10 +72,10 @@ def add_duplicate_to_embed(duplicate, embed):
     ls_emoji = common_emojis.get_emoji("GENERIC_LINESTART")
     if duplicate == "True":
         emoji = common_emojis.get_emoji("GENERIC_DUPLICATE")
-        embed.description += f"\n> {ls_emoji} {emoji} **Duplicate**"
+        embed.description += f"\n> {emoji} **Duplicate**"
     else:
         emoji = common_emojis.get_emoji("GENERIC_NEWCARD")
-        embed.description += f"\n> {ls_emoji} {emoji} **New Card!**"
+        embed.description += f"\n> {emoji} **New Card!**"
 
 
 async def get_card_embed(ctx, card, embedtitle, embedcolor):
