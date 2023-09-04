@@ -128,7 +128,7 @@ def get_cards_desc(cards):
     arrow = common_emojis.get_emoji("GENERIC_RIGHTARROW")
     triangle = common_emojis.get_emoji("GENERIC_LINESTART")
     for group in dict:
-        for era, cardlist in dict[group]:
+        for era, cardlist in dict[group].items():
             result += f"{arrow} **{group}**:\n"
             result += f"> {triangle} **{era}**•({len(cardlist)})\n"
             for cardinfo in cardlist:
