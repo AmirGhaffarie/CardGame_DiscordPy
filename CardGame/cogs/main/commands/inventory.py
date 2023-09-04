@@ -131,7 +131,7 @@ def get_cards_desc(cards):
     for group in dict:
         for era, cardlist in dict[group].items():
             result += f"{arrow} **{group}**:\n"
-            result += f"> {triangle} **{era}**•({len(cardlist)})\n"
+            result += f"> {triangle} **{era}** • ({len(cardlist)})\n"
             for cardinfo in cardlist:
                 result += cardinfo + "\n"
     return result
