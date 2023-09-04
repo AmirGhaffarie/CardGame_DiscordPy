@@ -55,5 +55,6 @@ class Main(commands.Cog):
     async def fuse(self, ctx, *args):
         await fuse_command(self, ctx, *args)
 
-    async def setup(client):
-        await client.add_cog(Main(client))
+
+async def setup(client):
+    await client.add_cog(Main(client))
