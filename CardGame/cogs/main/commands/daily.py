@@ -1,8 +1,16 @@
-from aiohttp import ClientSession
-from utilities.constants import *
-from utilities.functions import get_cooldown, get_card_embed , add_duplicate_to_embed , add_coins_to_embed
-from datas import common_emojis
 import random
+
+from aiohttp import ClientSession
+
+from CardGame.datas import common_emojis
+from CardGame.utilities.constants import *
+from CardGame.utilities.functions import (
+    get_cooldown,
+    get_card_embed,
+    add_duplicate_to_embed,
+    add_coins_to_embed,
+)
+
 
 async def command(self, ctx, *args):
     async with ClientSession() as session:
@@ -15,7 +23,7 @@ async def command(self, ctx, *args):
                 coinsGot = random.randint(1, 3)
                 emoji2 = common_emojis.get_emoji("DAILY")
                 cardInfo, embed, file = await get_card_embed(
-                    ctx, await r.text(), f"{emoji2}Daily", 0xFFAFAF
+                    ctx, await r.text(), f"{emoji2}Daily", 0x9CB6EB
                 )
                 duplicate = False
                 carduid = cardInfo["ID"]
@@ -33,4 +41,3 @@ async def command(self, ctx, *args):
                 add_coins_to_embed(coinsGot, embed)
 
                 await ctx.send(file=file, embed=embed)
-

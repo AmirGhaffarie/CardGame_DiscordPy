@@ -1,18 +1,19 @@
 import configparser
 import enum
-from os import path
-import os
-import re
-import json
-import uuid
-import discord
-import aiofiles
 import importlib
-from datas import common_emojis
-from utilities.constants import *
+import json
+import re
+import uuid
 from datetime import timedelta
-from aiohttp import ClientSession
+from os import path
+
+import aiofiles
+import discord
 from PIL import Image
+from aiohttp import ClientSession
+
+from CardGame.datas import common_emojis
+from CardGame.utilities.constants import *
 
 
 def parse_time(s) -> timedelta:
@@ -76,9 +77,11 @@ def add_duplicate_to_embed(duplicate, embed):
         emoji = common_emojis.get_emoji("GENERIC_NEWCARD")
         embed.description += f"\n> {emoji} **New Card!**"
 
+
 def add_coins_to_embed(coins, embed):
     emoji = common_emojis.get_emoji("GENERIC_COIN")
     embed.description += f"\nStarz\nYou Earned **{coins}** {emoji}"
+
 
 async def get_card_embed(ctx, card, embedtitle, embedcolor):
     cardinfo = json.loads(card)

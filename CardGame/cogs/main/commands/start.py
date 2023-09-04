@@ -1,5 +1,6 @@
 from aiohttp.client import ClientSession
-from utilities.constants import *
+
+from CardGame.utilities.constants import *
 
 
 async def command(self, ctx):

@@ -1,9 +1,11 @@
-from aiohttp.client import ClientSession
-from utilities.constants import *
-from utilities.functions import get_cooldown
 import json
+
 import discord
-from datas import common_emojis
+from aiohttp.client import ClientSession
+
+from CardGame.datas import common_emojis
+from CardGame.utilities.constants import *
+from CardGame.utilities.functions import get_cooldown
 
 
 async def command(self, ctx):
@@ -17,7 +19,7 @@ async def command(self, ctx):
                 for key, value in items.items():
                     val += f"{common_emojis.get_emoji(key.upper())} {key} : {get_cooldown(value)}\n"
 
-                embed = discord.Embed(title="Cooldowns", color=0x000000)
+                embed = discord.Embed(title="Cooldowns", color=0x9CB6EB)
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )

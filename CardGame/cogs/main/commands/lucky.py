@@ -1,7 +1,13 @@
+import asyncio
+import json
+from datetime import datetime, timezone
+
+import discord
 from aiohttp import ClientSession
-from datas import common_emojis
-from utilities.constants import *
-from utilities.functions import (
+
+from CardGame.datas import common_emojis
+from CardGame.utilities.constants import *
+from CardGame.utilities.functions import (
     get_card_embed,
     get_cooldown,
     show_card,
@@ -9,10 +15,6 @@ from utilities.functions import (
     get_image,
     add_duplicate_to_embed,
 )
-from datetime import datetime, timezone
-import json
-import discord
-import asyncio
 
 
 async def command(self, ctx):
@@ -34,7 +36,7 @@ async def command(self, ctx):
                     cardInfos[current],
                     [drop_emoji, skip_emoji],
                     f"{emoji}Lucky",
-                    0xFFAFAF,
+                    0x9CB6EB,
                 )
 
                 def check(reaction, user):
@@ -75,7 +77,7 @@ async def command(self, ctx):
                                 current += 1
                                 emoji = common_emojis.get_emoji("LUCKY")
                                 cardInfo, embed, file = await get_card_embed(
-                                    ctx, cardInfos[current], f"{emoji}Lucky", 0xFFAFAF
+                                    ctx, cardInfos[current], f"{emoji}Lucky", 0x9CB6EB
                                 )
                                 await msg.clear_reactions()
                                 await msg.remove_attachments(msg.attachments)
@@ -93,7 +95,7 @@ async def command(self, ctx):
                     loseembed = discord.Embed(
                         title="Drop Lost",
                         description="The dropped card has been lost \n due to reaction timeout.",
-                        color=0xFF1010,
+                        color=0x9CB6EB,
                     )
                     loseembed.set_author(
                         name=ctx.author.display_name, icon_url=ctx.author.avatar
@@ -106,7 +108,7 @@ async def drop_extra(self, card, ctx):
     drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
     emoji = common_emojis.get_emoji("CLAIM")
     cardInfo, embed, msg = await show_card(
-        ctx, card, [drop_emoji], f"{emoji}Claimable", 0xFBD021
+        ctx, card, [drop_emoji], f"{emoji}Claimable", 0x9CB6EB
     )
 
     def check(reaction, user):
@@ -148,7 +150,7 @@ async def drop_extra(self, card, ctx):
         loseembed = discord.Embed(
             title="Drop Lost",
             description="The dropped card has been lost \n due to reaction timeout.",
-            color=0xFF1010,
+            color=0x9CB6EB,
         )
         loseembed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
         await msg.delete()

@@ -1,5 +1,6 @@
-from utilities.constants import *
 import pandas as pd
+
+from CardGame.utilities.constants import *
 
 dictionary = {}
 

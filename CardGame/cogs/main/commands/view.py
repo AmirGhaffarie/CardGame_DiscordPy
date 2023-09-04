@@ -1,8 +1,10 @@
 import json
+
 import discord
 from aiohttp.client import ClientSession
-from utilities.constants import *
-from utilities.functions import (
+
+from CardGame.utilities.constants import *
+from CardGame.utilities.functions import (
     get_image,
     get_card,
     get_user,
@@ -24,7 +26,7 @@ async def command(self, ctx, *args):
                 await ctx.send(await r.text())
             else:
                 cardinfo = json.loads(await r.text())
-                embed = discord.Embed(title="View", color=0xB2CCEB)
+                embed = discord.Embed(title="View", color=0x9CB6EB)
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )

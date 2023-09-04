@@ -1,9 +1,5 @@
-import discord.ext.commands as commands
-import os
-import asyncio
-import pytest
-import pytest_asyncio
 import discord.ext.test as dpytest
+import pytest
 
 
 @pytest.mark.asyncio

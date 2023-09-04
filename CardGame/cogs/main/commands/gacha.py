@@ -1,15 +1,17 @@
+import random
+from asyncio import sleep
+
+import discord
 from aiohttp import ClientSession
-from utilities.constants import *
-from utilities.functions import (
+
+from CardGame.datas import common_emojis
+from CardGame.utilities.constants import *
+from CardGame.utilities.functions import (
     get_image,
     get_cooldown,
     show_card,
     add_duplicate_to_embed,
 )
-import discord
-import random
-from asyncio import sleep
-from datas import common_emojis
 
 
 async def command(self, ctx):
@@ -23,7 +25,7 @@ async def command(self, ctx):
                 drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
                 emoji = common_emojis.get_emoji("GACHA")
                 cardInfo, embed, msg = await show_card(
-                    ctx, await r.text(), [drop_emoji], f"{emoji}Gacha", 0xFFAFAF
+                    ctx, await r.text(), [drop_emoji], f"{emoji}Gacha", 0x9CB6EB
                 )
                 await sleep(DROP_TIMEOUT)
                 msg = await msg.channel.fetch_message(msg.id)
@@ -36,7 +38,7 @@ async def command(self, ctx):
                     loseembed = discord.Embed(
                         title="Drop Lost",
                         description="The dropped card has been lost \n due to no reactions.",
-                        color=0xFF1010,
+                        color=0x9CB6EB,
                     )
                     loseembed.set_author(
                         name=ctx.author.display_name, icon_url=ctx.author.avatar

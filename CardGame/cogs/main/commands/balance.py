@@ -1,7 +1,8 @@
 import discord
 from aiohttp.client import ClientSession
-from utilities.constants import *
-from datas import common_emojis
+
+from CardGame.datas import common_emojis
+from CardGame.utilities.constants import *
 
 
 async def command(self, ctx):
@@ -12,7 +13,7 @@ async def command(self, ctx):
             else:
                 emoji = common_emojis.get_emoji("WALLET")
 
-                embed = discord.Embed(title=f"{emoji}Balance", color=0x20FF20)
+                embed = discord.Embed(title=f"{emoji}Balance", color=0x9CB6EB)
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )

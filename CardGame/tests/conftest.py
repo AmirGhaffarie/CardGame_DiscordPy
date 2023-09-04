@@ -1,9 +1,11 @@
 import glob
+import os
+
 import discord
 import discord.ext.commands as commands
-import os
-import pytest_asyncio
 import discord.ext.test as dpytest
+import pytest_asyncio
+
 
 @pytest_asyncio.fixture
 async def bot():
@@ -20,17 +22,19 @@ async def bot():
                 await bot.load_extension(f"cogs.{cog_folder.name}.{file[:-3]}")
     return bot
 
+
 @pytest_asyncio.fixture(autouse=True)
 async def cleanup():
     yield
     await dpytest.empty_queue()
 
+
 def pytest_sessionfinish(session, exitstatus):
-    """ Code to execute after all tests. """
+    """Code to execute after all tests."""
 
     # dat files are created when using attachements
     print("\n-------------------------\nClean dpytest_*.dat files")
-    fileList = glob.glob('./dpytest_*.dat')
+    fileList = glob.glob("./dpytest_*.dat")
     for filePath in fileList:
         try:
             os.remove(filePath)

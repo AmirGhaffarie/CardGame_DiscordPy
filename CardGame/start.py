@@ -1,7 +1,8 @@
+import asyncio
+
 import discord
 from discord.ext import commands, tasks
-import asyncio
-from utilities.constants import *
+
 from utilities.functions import read_config, load_cogs, load_database_datas
 
 intents = discord.Intents.default()

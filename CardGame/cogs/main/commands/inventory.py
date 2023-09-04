@@ -1,9 +1,9 @@
-from aiohttp import ClientSession
-from utilities.constants import *
-from utilities.functions import *
-from datetime import datetime, timezone
-import discord
 import asyncio
+from datetime import datetime, timezone
+
+import discord
+
+from CardGame.utilities.functions import *
 
 
 async def command(self, ctx, *args):
@@ -23,7 +23,7 @@ async def command(self, ctx, *args):
             next = result["next"]
             prev = result["previous"]
             embed = discord.Embed(
-                title=get_title(page, INVENTORY_PAGE_SIZE, count), color=0xFFFF00
+                title=get_title(page, INVENTORY_PAGE_SIZE, count), color=0x9CB6EB
             )
             next_emoji = common_emojis.get_emoji(EMOJIS_SKIP)
             prev_emoji = common_emojis.get_emoji(EMOJIS_SKIPLEFT)
@@ -71,7 +71,7 @@ async def command(self, ctx, *args):
                         prev = result["previous"]
                         embed = discord.Embed(
                             title=get_title(page, INVENTORY_PAGE_SIZE, count),
-                            color=0xFFFF00,
+                            color=0x9CB6EB,
                         )
                         embdisc = ""
                         for card in cards:
@@ -97,7 +97,7 @@ async def command(self, ctx, *args):
                         prev = result["previous"]
                         embed = discord.Embed(
                             title=get_title(page, INVENTORY_PAGE_SIZE, count),
-                            color=0xFFFF00,
+                            color=0x9CB6EB,
                         )
                         embdisc = ""
                         for card in cards:

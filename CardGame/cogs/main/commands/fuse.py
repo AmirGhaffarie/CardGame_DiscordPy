@@ -1,7 +1,8 @@
 import discord
 from aiohttp.client import ClientSession
-from utilities.constants import *
-from utilities.functions import get_input_type, get_card, Inputs
+
+from CardGame.utilities.constants import *
+from CardGame.utilities.functions import get_input_type, get_card, Inputs
 
 
 async def command(self, ctx, *args):
@@ -28,7 +29,7 @@ async def command(self, ctx, *args):
                 f"{DB_BASE_ADDRESS}/fuse/{ctx.author.id}/{main_card}/{card}"
             ) as r:
                 xp_gains.append(await r.text())
-        embed = discord.Embed(title="Fuse", color=0xF78589)
+        embed = discord.Embed(title="Fuse", color=0x9CB6EB)
         embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
         embed_description = (
             f"{ctx.author.mention} Fused in **{main_card}** the following cards\n"

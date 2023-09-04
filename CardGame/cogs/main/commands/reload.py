@@ -1,5 +1,4 @@
-from utilities.constants import *
-from datas import common_emojis, localization
+from CardGame.datas import common_emojis, localization
 
 
 async def command(self, ctx):

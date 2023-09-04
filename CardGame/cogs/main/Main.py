@@ -1,5 +1,6 @@
 from discord.ext import commands
-from cogs.main.commands import *
+
+from CardGame.cogs.main.commands import *
 
 
 class Main(commands.Cog):

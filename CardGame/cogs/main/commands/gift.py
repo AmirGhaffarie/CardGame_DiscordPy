@@ -1,7 +1,8 @@
 import discord
 from aiohttp.client import ClientSession
-from utilities.constants import *
-from utilities.functions import get_user, get_input_type, get_card, Inputs
+
+from CardGame.utilities.constants import *
+from CardGame.utilities.functions import get_user, get_input_type, get_card, Inputs
 
 
 async def command(self, ctx, *args):
@@ -25,7 +26,7 @@ async def command(self, ctx, *args):
                 f"{DB_BASE_ADDRESS}/giftcard/{ctx.author.id}/{id}/{card}"
             ) as r:
                 await r.text()
-        embed = discord.Embed(title="Gift", color=0xF78589)
+        embed = discord.Embed(title="Gift", color=0x9CB6EB)
         embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
         embed_description = f"{ctx.author.mention} gifted <@{id}> the following cards\n"
         for card in cards:

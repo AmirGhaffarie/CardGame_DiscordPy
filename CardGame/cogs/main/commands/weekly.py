@@ -1,16 +1,18 @@
+import json
 import random
+
+import discord
 from aiohttp import ClientSession
-from utilities.constants import *
-from utilities.functions import (
+
+from CardGame.datas import common_emojis
+from CardGame.utilities.constants import *
+from CardGame.utilities.functions import (
     get_cooldown,
     get_image,
     merge_images,
     add_duplicate_to_embed,
     add_coins_to_embed,
 )
-import json
-import discord
-from datas import common_emojis
 
 
 async def command(self, ctx, *args):
@@ -40,7 +42,7 @@ async def command(self, ctx, *args):
                 merged_image = merge_images([file1path, file2path])
                 file = discord.File(merged_image, filename="card.png")
                 emoji = common_emojis.get_emoji("WEEKLY")
-                embed = discord.Embed(title=f"{emoji}Weekly", color=0xFF00FF)
+                embed = discord.Embed(title=f"{emoji}Weekly", color=0x9CB6EB)
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
