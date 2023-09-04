@@ -12,8 +12,8 @@ import discord
 from PIL import Image
 from aiohttp import ClientSession
 
-from CardGame.datas import common_emojis
-from CardGame.utilities.constants import *
+from datas import common_emojis
+from utilities.constants import *
 
 
 def parse_time(s) -> timedelta:
