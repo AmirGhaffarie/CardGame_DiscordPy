@@ -132,6 +132,5 @@ def get_cards_desc(cards):
             result += f"{arrow} **{group}**:\n"
             result += f"> {triangle} **{era}**•({len(cardlist)})\n"
             for cardinfo in cardlist:
-                result += cardinfo
-            result += "\n"
+                result += cardinfo + "\n"
     return result
