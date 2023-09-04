@@ -101,7 +101,7 @@ async def command(self, ctx, *args):
                         )
                         embdisc = ""
                         for card in cards:
-                            embdisc += card + "\n"
+                            embdisc += card + " \n"
                         embed.description = embdisc
                         await reaction.remove(ctx.author)
                         await msg.edit(embed=embed)
