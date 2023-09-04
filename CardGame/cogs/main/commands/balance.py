@@ -1,8 +1,8 @@
 import discord
 from aiohttp.client import ClientSession
 
-from CardGame.datas import common_emojis
-from CardGame.utilities.constants import *
+from datas import common_emojis
+from utilities.constants import *
 
 
 async def command(self, ctx):

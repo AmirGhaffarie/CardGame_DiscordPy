@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 import discord
 
-from CardGame.utilities.functions import *
+from utilities.functions import *
 
 
 async def command(self, ctx, *args):

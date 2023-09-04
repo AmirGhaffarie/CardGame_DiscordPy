@@ -5,9 +5,9 @@ from datetime import datetime, timezone
 import discord
 from aiohttp import ClientSession
 
-from CardGame.datas import common_emojis
-from CardGame.utilities.constants import *
-from CardGame.utilities.functions import (
+from datas import common_emojis
+from utilities.constants import *
+from utilities.functions import (
     get_card_embed,
     get_cooldown,
     show_card,

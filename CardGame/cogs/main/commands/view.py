@@ -3,8 +3,8 @@ import json
 import discord
 from aiohttp.client import ClientSession
 
-from CardGame.utilities.constants import *
-from CardGame.utilities.functions import (
+from utilities.constants import *
+from utilities.functions import (
     get_image,
     get_card,
     get_user,

@@ -1,8 +1,8 @@
 import discord
 from aiohttp.client import ClientSession
 
-from CardGame.utilities.constants import *
-from CardGame.utilities.functions import get_user, get_input_type, get_card, Inputs
+from utilities.constants import *
+from utilities.functions import get_user, get_input_type, get_card, Inputs
 
 
 async def command(self, ctx, *args):

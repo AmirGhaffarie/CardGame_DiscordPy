@@ -4,9 +4,9 @@ import random
 import discord
 from aiohttp import ClientSession
 
-from CardGame.datas import common_emojis
-from CardGame.utilities.constants import *
-from CardGame.utilities.functions import (
+from datas import common_emojis
+from utilities.constants import *
+from utilities.functions import (
     get_cooldown,
     get_image,
     merge_images,
