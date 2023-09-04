@@ -118,7 +118,9 @@ def get_cards_desc(cards):
         gp = lines[0]
         era = lines[1]
         card = lines[2]
-        if dict[gp][era] == None:
+        if not gp in dict:
+            dict[gp] = {}
+        if not era in dict[gp]:
             dict[gp][era] = [card]
         else:
             dict[gp][era].append(card)
