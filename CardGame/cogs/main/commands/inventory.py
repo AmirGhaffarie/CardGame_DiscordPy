@@ -101,6 +101,7 @@ async def command(self, ctx, *args):
                         delay = min(LONG_COMMAND_TIMEOUT, delay + 5)
                 else:
                     await reaction.remove(ctx.author)
+        await msg.clear_reactions()
 
 
 def get_title(page, perpage, count):

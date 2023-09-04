@@ -23,9 +23,9 @@ async def command(self, ctx):
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
                 drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
-                emoji = common_emojis.get_emoji("GACHA")
+                emoji = common_emojis.get_emoji("Drop")
                 cardInfo, embed, msg = await show_card(
-                    ctx, await r.text(), [drop_emoji], f"{emoji}Gacha", 0x9CB6EB
+                    ctx, await r.text(), [drop_emoji], f"{emoji}Drop", 0x9CB6EB
                 )
                 await sleep(DROP_TIMEOUT)
                 msg = await msg.channel.fetch_message(msg.id)
