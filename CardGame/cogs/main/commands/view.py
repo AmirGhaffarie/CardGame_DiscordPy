@@ -16,7 +16,7 @@ async def command(self, ctx, *args):
         if not legit:
             await ctx.send("Wrong use of command.")
             return
-        async with session.get(f"{DB_BASE_ADDRESS}/viewcard/{id}/{card}") as r:
+        async with session.get(f"{DB_BASE_ADDRESS}/viewcard/{card}") as r:
             if r.status == 404:
                 await ctx.send("Card Does not exist.")
             elif r.status == 210:
