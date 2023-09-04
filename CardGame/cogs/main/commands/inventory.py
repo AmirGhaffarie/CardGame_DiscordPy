@@ -27,10 +27,9 @@ async def command(self, ctx, *args):
             )
             next_emoji = common_emojis.get_emoji(EMOJIS_SKIP)
             prev_emoji = common_emojis.get_emoji(EMOJIS_SKIPLEFT)
-            embdisc = ""
-            for card in cards:
-                embdisc += card + "\n"
-            embed.description = embdisc
+
+            embed.description = get_cards_desc(cards)
+
             msg: discord.Message = await ctx.send(embed=embed)
             starttime = datetime.now(timezone.utc)
         for reaction in [prev_emoji, next_emoji]:
@@ -73,10 +72,7 @@ async def command(self, ctx, *args):
                             title=get_title(page, INVENTORY_PAGE_SIZE, count),
                             color=0x9CB6EB,
                         )
-                        embdisc = ""
-                        for card in cards:
-                            embdisc += card + "\n"
-                        embed.description = embdisc
+                        embed.description = get_cards_desc(cards)
                         await reaction.remove(ctx.author)
                         await msg.edit(embed=embed)
                         delay = min(LONG_COMMAND_TIMEOUT, delay + 5)
@@ -99,10 +95,7 @@ async def command(self, ctx, *args):
                             title=get_title(page, INVENTORY_PAGE_SIZE, count),
                             color=0x9CB6EB,
                         )
-                        embdisc = ""
-                        for card in cards:
-                            embdisc += card + " \n"
-                        embed.description = embdisc
+                        embed.description = get_cards_desc(cards)
                         await reaction.remove(ctx.author)
                         await msg.edit(embed=embed)
                         delay = min(LONG_COMMAND_TIMEOUT, delay + 5)
@@ -116,3 +109,26 @@ def get_title(page, perpage, count):
     lastindex = min(lastindex, count)
     emoji = common_emojis.get_emoji("BACKPACK")
     return f"{emoji}Inventory\n**{firstindex}**->**{lastindex}** from **{count}**"
+
+
+def get_cards_desc(cards):
+    dict = {}
+    for card in cards:
+        lines = card.splitlines()
+        gp = lines[0]
+        era = lines[1]
+        card = lines[2]
+        if dict[gp][era] == None:
+            dict[gp][era] = [card]
+        else:
+            dict[gp][era].append(card)
+    result = ""
+    arrow = common_emojis.get_emoji("GENERIC_RIGHTARROW")
+    triangle = common_emojis.get_emoji("GENERIC_LINESTART")
+    for group in dict:
+        for era, cardlist in dict[group]:
+            result += f"{arrow} **{group}**:\n"
+            result += f"> {triangle} **{era}**•({len(cardlist)})\n"
+            for cardinfo in cardlist:
+                result += cardinfo
+    return result
