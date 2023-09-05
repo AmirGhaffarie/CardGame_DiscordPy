@@ -66,13 +66,13 @@ async def command(self, ctx, *args):
 
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}/{card2rarity}"
-                ) as r:
-                    duplicate = await r.text()
+                ) as r2:
+                    duplicate = await r2.text()
                     add_duplicate_to_embed(duplicate, embed)
 
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
-                ) as r2:
-                    await r2.text()
+                ) as r3:
+                    await r3.text()
                 add_coins_to_embed(coinsGot, embed)
                 await ctx.send(file=file, embed=embed)
