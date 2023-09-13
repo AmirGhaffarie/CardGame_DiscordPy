@@ -25,13 +25,13 @@ async def command(self, ctx, *args):
             embed = discord.Embed(
                 title=get_title(page, INVENTORY_PAGE_SIZE, count), color=0x9CB6EB
             )
-            next_emoji = common_emojis.get_emoji(EMOJIS_SKIP)
-            prev_emoji = common_emojis.get_emoji(EMOJIS_SKIPLEFT)
+            next_emoji = emojis.get(EMOJIS_SKIP)
+            prev_emoji = emojis.get(EMOJIS_SKIPLEFT)
 
             embed.description = get_cards_desc(cards)
 
             msg: discord.Message = await ctx.send(embed=embed)
-            starttime = datetime.now(timezone.utc)
+            start_time = datetime.now(timezone.utc)
         for reaction in [prev_emoji, next_emoji]:
             await msg.add_reaction(reaction)
 
@@ -44,7 +44,7 @@ async def command(self, ctx, *args):
 
         delay = 0
         while (
-            datetime.now(timezone.utc) - starttime
+            datetime.now(timezone.utc) - start_time
         ).seconds < LONG_COMMAND_TIMEOUT + delay:
             try:
                 reaction, user = await self.bot.wait_for(
@@ -108,7 +108,7 @@ def get_title(page, perpage, count):
     firstindex = (page - 1) * perpage + 1
     lastindex = firstindex + perpage - 1
     lastindex = min(lastindex, count)
-    emoji = common_emojis.get_emoji("BACKPACK")
+    emoji = emojis.get("BACKPACK")
     return f"{emoji}Inventory\n**{firstindex}**->**{lastindex}** from **{count}**"
 
 
@@ -126,12 +126,12 @@ def get_cards_desc(cards):
         else:
             dict[gp][era].append(card)
     result = ""
-    arrow = common_emojis.get_emoji("GENERIC_RIGHTARROW")
-    triangle = common_emojis.get_emoji("GENERIC_LINESTART")
+    arrow = emojis.get("GENERIC_RIGHTARROW")
+    triangle = emojis.get("GENERIC_LINESTART")
     for group in dict:
-        for era, cardlist in dict[group].items():
+        for era, card_list in dict[group].items():
             result += f"{arrow} **{group}**:\n"
-            result += f"> {triangle} **{era}** • ({len(cardlist)})\n"
-            for cardinfo in cardlist:
-                result += cardinfo + "\n"
+            result += f"> {triangle} **{era}** • ({len(card_list)})\n"
+            for card_info in card_list:
+                result += card_info + "\n"
     return result

@@ -1,7 +1,7 @@
-from datas import common_emojis, localization
+from datas import emojis, localization
 
 
 async def command(self, ctx):
-    await common_emojis.load()
+    await emojis.load()
     await localization.load()
     await ctx.send("Reload Completed")

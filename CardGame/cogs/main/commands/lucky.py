@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import discord
 from aiohttp import ClientSession
 
-from datas import common_emojis
+from datas import emojis
 from utilities.constants import *
 from utilities.functions import (
     get_card_embed,
@@ -25,15 +25,15 @@ async def command(self, ctx):
             elif r.status == 210:
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
-                cardInfos = json.loads(await r.text())["res"]
-                starttime = datetime.now(timezone.utc)
+                card_infos = json.loads(await r.text())["res"]
+                start_time = datetime.now(timezone.utc)
                 current = 0
-                drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
-                skip_emoji = common_emojis.get_emoji(EMOJIS_SKIP)
-                emoji = common_emojis.get_emoji("LUCKY")
-                cardInfo, embed, msg = await show_card(
+                drop_emoji = emojis.get(EMOJIS_DROP)
+                skip_emoji = emojis.get(EMOJIS_SKIP)
+                emoji = emojis.get("LUCKY")
+                card_info, embed, msg = await show_card(
                     ctx,
-                    cardInfos[current],
+                    card_infos[current],
                     [drop_emoji, skip_emoji],
                     f"{emoji}Lucky",
                     0x9CB6EB,
@@ -48,7 +48,7 @@ async def command(self, ctx):
 
                 collected = False
                 while (
-                    datetime.now(timezone.utc) - starttime
+                    datetime.now(timezone.utc) - start_time
                 ).seconds < LONG_COMMAND_TIMEOUT:
                     try:
                         reaction, user = await self.bot.wait_for(
@@ -60,24 +60,23 @@ async def command(self, ctx):
                         msg = await msg.channel.fetch_message(msg.id)
                         if str(reaction.emoji) == drop_emoji:
                             embed.add_field(name="Owner", value=ctx.author.mention)
-                            carduid = json.loads(cardInfos[current])["ID"]
-                            cardrarity = json.loads(cardInfos[current])["rarity_id"]
+                            carduid = json.loads(card_infos[current])["ID"]
                             async with session.get(
-                                f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}/{cardrarity}"
+                                f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}"
                             ) as r:
                                 duplicate = await r.text()
                                 add_duplicate_to_embed(duplicate, embed)
                                 await msg.edit(embed=embed)
                                 await msg.clear_reactions()
-                            cardInfos.pop(current)
+                            card_infos.pop(current)
                             collected = True
                             break
                         elif str(reaction.emoji) == skip_emoji:
                             if current < 2:
                                 current += 1
-                                emoji = common_emojis.get_emoji("LUCKY")
-                                cardInfo, embed, file = await get_card_embed(
-                                    ctx, cardInfos[current], f"{emoji}Lucky", 0x9CB6EB
+                                emoji = emojis.get("LUCKY")
+                                card_info, embed, file = await get_card_embed(
+                                    ctx, card_infos[current], f"{emoji}Lucky", 0x9CB6EB
                                 )
                                 await msg.clear_reactions()
                                 await msg.remove_attachments(msg.attachments)
@@ -88,8 +87,8 @@ async def command(self, ctx):
                                 await msg.edit(embed=embed)
                 if collected:
                     await asyncio.gather(
-                        drop_extra(self, cardInfos[0], ctx),
-                        drop_extra(self, cardInfos[1], ctx),
+                        drop_extra(self, card_infos[0], ctx),
+                        drop_extra(self, card_infos[1], ctx),
                     )
                 else:
                     loseembed = discord.Embed(
@@ -105,8 +104,8 @@ async def command(self, ctx):
 
 
 async def drop_extra(self, card, ctx):
-    drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
-    emoji = common_emojis.get_emoji("CLAIM")
+    drop_emoji = emojis.get(EMOJIS_DROP)
+    emoji = emojis.get("CLAIM")
     cardInfo, embed, msg = await show_card(
         ctx, card, [drop_emoji], f"{emoji}Claimable", 0x9CB6EB
     )
@@ -138,10 +137,9 @@ async def drop_extra(self, card, ctx):
         embed.add_field(name="Claimed", value=winner.mention)
         await msg.delete()
         carduid = cardInfo["ID"]
-        cardrarity = cardInfo["rarity_id"]
         async with ClientSession() as session:
             async with session.get(
-                f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/{cardrarity}"
+                f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}"
             ) as r:
                 duplicate = await r.text()
                 add_duplicate_to_embed(duplicate, embed)

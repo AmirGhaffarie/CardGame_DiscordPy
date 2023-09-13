@@ -12,7 +12,7 @@ import discord
 from PIL import Image
 from aiohttp import ClientSession
 
-from datas import common_emojis
+from datas import emojis
 from utilities.constants import *
 
 
@@ -42,7 +42,7 @@ def parse_time(s) -> timedelta:
 def get_cooldown(t):
     time = parse_time(t)
     if time < timedelta(seconds=0):
-        return common_emojis.get_emoji(EMOJIS_COOLDOWN_CHECK)
+        return emojis.get(EMOJIS_COOLDOWN_CHECK)
     else:
         cooldown = ""
         if time.days > 0:
@@ -55,36 +55,30 @@ def get_cooldown(t):
         return cooldown
 
 
-async def show_card(ctx, card, reactions, embedtitle, embedcolor):
-    cardinfo: dict = json.loads(card)
-    embed = discord.Embed(title=embedtitle, color=embedcolor)
-    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
-    embed.description = cardinfo["CardDescription"]
-    filepath = await get_image(cardinfo["url"])
-    file = discord.File(filepath, filename="card.png")
-    embed.set_image(url="attachment://card.png")
+async def show_card(ctx, card, reactions, embed_title, embed_color):
+    ci, embed, file = get_card_embed(ctx, card, embed_title, embed_color)
     msg: discord.Message = await ctx.send(file=file, embed=embed)
     for reaction in reactions:
         await msg.add_reaction(reaction)
-    return cardinfo, embed, msg
+    return ci, embed, msg
 
 
 def add_duplicate_to_embed(duplicate, embed):
     if duplicate == "True":
-        emoji = common_emojis.get_emoji("GENERIC_DUPLICATE")
+        emoji = emojis.get("GENERIC_DUPLICATE")
         embed.description += f"\n> {emoji} **Duplicate**"
     else:
-        emoji = common_emojis.get_emoji("GENERIC_NEWCARD")
+        emoji = emojis.get("GENERIC_NEWCARD")
         embed.description += f"\n> {emoji} **New Card!**"
 
 
 def add_coins_to_embed(coins, embed):
-    emoji = common_emojis.get_emoji("GENERIC_COIN")
+    emoji = emojis.get("GENERIC_COIN")
     embed.description += f"\nStarz\nYou Earned **{coins}** {emoji}"
 
 
 async def get_card_embed(ctx, card, embedtitle, embedcolor):
-    cardinfo = json.loads(card)
+    cardinfo: dict = json.loads(card)
     embed = discord.Embed(title=embedtitle, color=embedcolor)
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     embed.description = cardinfo["CardDescription"]
@@ -118,19 +112,18 @@ async def check_can_claim(self, user, ctx) -> bool:
                     return True
 
 
-def get_input_type(input: str):
+def get_input_type(input_string: str):
     if (
-        (input.startswith("<@") or input.startswith("<@!"))
-        and input.endswith(">")
-        and len(input) > 19
-        and len(input) < 23
+        (input_string.startswith("<@") or input_string.startswith("<@!"))
+        and input_string.endswith(">")
+        and 19 < len(input_string) < 23
     ):
         return Inputs.User
-    if input.isdigit() and len(input) > 16 and len(input) < 19:
+    if input_string.isdigit() and 16 < len(input_string) < 19:
         return Inputs.User
-    if input.isdigit():
+    if input_string.isdigit():
         return Inputs.Number
-    if len(input) > 6 and input[-1:].isdigit():
+    if len(input_string) > 6 and input_string[-1:].isdigit():
         return Inputs.Card
     return Inputs.Invalid
 
@@ -142,12 +135,12 @@ class Inputs(enum.Enum):
     Invalid = 4
 
 
-def get_user(input: str):
-    return input.strip("<").strip(">").strip("@").strip("!")
+def get_user(input_string: str):
+    return input_string.strip("<").strip(">").strip("@").strip("!")
 
 
-def get_card(input):
-    return str(input).upper()
+def get_card(input_string):
+    return str(input_string).upper()
 
 
 def get_tempfilename():

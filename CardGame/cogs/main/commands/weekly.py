@@ -4,7 +4,7 @@ import random
 import discord
 from aiohttp import ClientSession
 
-from datas import common_emojis
+from datas import emojis
 from utilities.constants import *
 from utilities.functions import (
     get_cooldown,
@@ -34,14 +34,14 @@ async def command(self, ctx, *args):
             elif r.status == 220:
                 await ctx.send("The group you entered not exists in our cards.")
             else:
-                cardInfos = json.loads(await r.text())["res"]
-                card1 = json.loads(cardInfos[0])
-                card2 = json.loads(cardInfos[1])
+                card_infos = json.loads(await r.text())["res"]
+                card1 = json.loads(card_infos[0])
+                card2 = json.loads(card_infos[1])
                 file1path = await get_image(card1["url"])
                 file2path = await get_image(card2["url"])
                 merged_image = merge_images([file1path, file2path])
                 file = discord.File(merged_image, filename="card.png")
-                emoji = common_emojis.get_emoji("WEEKLY")
+                emoji = common_emojis.get("WEEKLY")
                 embed = discord.Embed(title=f"{emoji}Weekly", color=0x9CB6EB)
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
@@ -49,30 +49,28 @@ async def command(self, ctx, *args):
 
                 embed.description = card1["CardDescription"]
 
-                coinsGot = random.randint(12, 16)
+                coins_got = random.randint(12, 16)
 
                 embed.set_image(url=f"attachment://card.png")
                 card1uid = card1["ID"]
-                card1rarity = card1["rarity_id"]
                 async with session.get(
-                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card1uid}/{card1rarity}"
+                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card1uid}"
                 ) as r:
                     duplicate = await r.text()
                     add_duplicate_to_embed(duplicate, embed)
 
                 embed.description += "\n\n" + card2["CardDescription"]
                 card2uid = card2["ID"]
-                card2rarity = card2["rarity_id"]
 
                 async with session.get(
-                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}/{card2rarity}"
+                    f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}"
                 ) as r2:
                     duplicate = await r2.text()
                     add_duplicate_to_embed(duplicate, embed)
 
                 async with session.get(
-                    f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coinsGot}"
+                    f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coins_got}"
                 ) as r3:
                     await r3.text()
-                add_coins_to_embed(coinsGot, embed)
+                add_coins_to_embed(coins_got, embed)
                 await ctx.send(file=file, embed=embed)

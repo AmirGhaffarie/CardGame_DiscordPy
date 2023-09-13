@@ -3,7 +3,7 @@ import json
 import discord
 from aiohttp.client import ClientSession
 
-from datas import common_emojis
+from datas import emojis
 from utilities.constants import *
 from utilities.functions import get_cooldown
 
@@ -17,9 +17,9 @@ async def command(self, ctx):
                 val = ""
                 items = json.loads(await r.text())
                 for key, value in items.items():
-                    val += f"{common_emojis.get_emoji(key.upper())} {key} : {get_cooldown(value)}\n"
+                    val += f"{emojis.get(key.upper())} {key} : {get_cooldown(value)}\n"
 
-                embed = discord.Embed(title="Cooldowns", color=0x9CB6EB)
+                embed = discord.Embed(title="Cooldown", color=0x9CB6EB)
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )

@@ -5,7 +5,7 @@ from utilities.constants import *
 dictionary = {}
 
 
-def get_emoji(label):
+def get(label):
     if label in dictionary:
         return dictionary[label]
     return ""

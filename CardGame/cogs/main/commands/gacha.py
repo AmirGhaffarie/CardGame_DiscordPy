@@ -4,7 +4,7 @@ from asyncio import sleep
 import discord
 from aiohttp import ClientSession
 
-from datas import common_emojis
+from datas import emojis
 from utilities.constants import *
 from utilities.functions import (
     get_image,
@@ -22,9 +22,9 @@ async def command(self, ctx):
             elif r.status == 210:
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             else:
-                drop_emoji = common_emojis.get_emoji(EMOJIS_DROP)
-                emoji = common_emojis.get_emoji("Drop")
-                cardInfo, embed, msg = await show_card(
+                drop_emoji = emojis.get(EMOJIS_DROP)
+                emoji = emojis.get("Drop")
+                card_info, embed, msg = await show_card(
                     ctx, await r.text(), [drop_emoji], f"{emoji}Drop", 0x9CB6EB
                 )
                 await sleep(DROP_TIMEOUT)
@@ -35,27 +35,26 @@ async def command(self, ctx):
                 users = [user async for user in ra.users(limit=100)]
                 users = [u for u in users if u.id != self.bot.user.id]
                 if len(users) < 1:
-                    loseembed = discord.Embed(
+                    lose_embed = discord.Embed(
                         title="Drop Lost",
                         description="The dropped card has been lost \n due to no reactions.",
                         color=0x9CB6EB,
                     )
-                    loseembed.set_author(
+                    lose_embed.set_author(
                         name=ctx.author.display_name, icon_url=ctx.author.avatar
                     )
                     await msg.delete()
-                    await ctx.send(embed=loseembed)
+                    await ctx.send(embed=lose_embed)
                 else:
                     winner = random.choice(users)
                     embed.add_field(name="Winner", value=winner.mention)
                     await msg.delete()
-                    carduid = cardInfo["ID"]
-                    cardrarity = cardInfo["rarity_id"]
+                    carduid = card_info["ID"]
                     async with session.get(
-                        f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}/{cardrarity}"
+                        f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}"
                     ) as r:
                         duplicate = await r.text()
-                        filepath = await get_image(cardInfo["url"])
+                        filepath = await get_image(card_info["url"])
                         file = discord.File(filepath, filename="card.png")
                         embed.set_image(url="attachment://card.png")
                         add_duplicate_to_embed(duplicate, embed)
