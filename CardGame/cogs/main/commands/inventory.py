@@ -8,13 +8,15 @@ from utilities.functions import *
 
 async def command(self, ctx, *args):
     async with ClientSession(trust_env=True) as session:
-        useridforrequest = ctx.author.id
-        if len(args) == 1 and get_input_type(args[0]) == Inputs.User:
-            useridforrequest = get_user(args[0])
+        user_id_for_request = ctx.author.id
+        if len(args) >= 1 and get_input_type(args[0]) == Inputs.User:
+            user_id_for_request = get_user(args[0])
+        args_dict = get_args(args)
         current_page = 1
         params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
+        params.update(args_dict)
         async with session.get(
-            f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
+            f"{DB_BASE_ADDRESS}/inventory/{user_id_for_request}", params=params
         ) as r:
             result = await r.json()
             page = 1
@@ -22,6 +24,9 @@ async def command(self, ctx, *args):
             count = result["count"]
             next = result["next"]
             prev = result["previous"]
+            if count <= 0:
+                await ctx.send("No card found with the filters")
+                return
             embed = discord.Embed(
                 title=get_title(page, INVENTORY_PAGE_SIZE, count), color=0x9CB6EB
             )
@@ -60,7 +65,8 @@ async def command(self, ctx, *args):
                         "page": current_page,
                     }
                     async with session.get(
-                        f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
+                        f"{DB_BASE_ADDRESS}/inventory/{user_id_for_request}",
+                        params=params,
                     ) as r:
                         result = await r.json()
                         page = page + 1
@@ -83,7 +89,8 @@ async def command(self, ctx, *args):
                         "page": current_page,
                     }
                     async with session.get(
-                        f"{DB_BASE_ADDRESS}/inventory/{useridforrequest}", params=params
+                        f"{DB_BASE_ADDRESS}/inventory/{user_id_for_request}",
+                        params=params,
                     ) as r:
                         result = await r.json()
                         page = page - 1
@@ -102,6 +109,21 @@ async def command(self, ctx, *args):
                 else:
                     await reaction.remove(ctx.author)
         await msg.clear_reactions()
+
+
+def get_args(*args):
+    args_length = len(args)
+    if args_length > 0:
+        params = {}
+        for index in range(args_length):
+            if args[index] == "g" and index + 1 < args_length:
+                params["group"] = args[index + 1]
+            if args[index] == "e" and index + 1 < args_length:
+                params["era"] = args[index + 1]
+            if args[index] == "i" and index + 1 < args_length:
+                params["idol"] = args[index + 1]
+    else:
+        return {}
 
 
 def get_title(page, perpage, count):
