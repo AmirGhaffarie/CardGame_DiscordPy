@@ -14,7 +14,6 @@ async def command(self, ctx, *args):
         args_dict = get_args(args)
         current_page = 1
         params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
-        print(args_dict)
         if args_dict is not None:
             params.update(args_dict)
         async with session.get(
@@ -113,7 +112,7 @@ async def command(self, ctx, *args):
         await msg.clear_reactions()
 
 
-def get_args(*args):
+def get_args(args):
     args_length = len(args)
     if args_length > 0:
         params = {}
