@@ -116,23 +116,45 @@ def get_args(args):
     args_length = len(args)
     if args_length > 0:
         params = {}
+        current_key = None
+        buffer = ""
         for index, value in enumerate(args):
-            if value == "g" and index + 1 < args_length:
-                params["group"] = args[index + 1]
-            if value == "e" and index + 1 < args_length:
-                params["era"] = args[index + 1]
-            if value == "i" and index + 1 < args_length:
-                params["idol"] = args[index + 1]
+            if value == "g":
+                if current_key is not None:
+                    params[current_key] = buffer
+                    buffer = ""
+                current_key = "group"
+            elif value == "e":
+                if current_key is not None:
+                    params[current_key] = buffer
+                    buffer = ""
+                current_key = "era"
+            elif value == "i":
+                if current_key is not None:
+                    params[current_key] = buffer
+                    buffer = ""
+                current_key = "idol"
+            elif current_key is not None:
+                if current_key == "idol":
+                    value = value.capitalize()
+                else:
+                    value = value.upper()
+                if buffer == "":
+                    buffer = value
+                else:
+                    buffer += " " + value
+        if current_key is not None and buffer != "":
+            params[current_key] = buffer
         return params
     return {}
 
 
-def get_title(page, perpage, count):
-    firstindex = (page - 1) * perpage + 1
-    lastindex = firstindex + perpage - 1
-    lastindex = min(lastindex, count)
+def get_title(page, per_page, count):
+    first_index = (page - 1) * per_page + 1
+    last_index = first_index + per_page - 1
+    last_index = min(last_index, count)
     emoji = emojis.get("BACKPACK")
-    return f"{emoji}Inventory\n**{firstindex}**->**{lastindex}** from **{count}**"
+    return f"{emoji}Inventory\n**{first_index}**->**{last_index}** from **{count}**"
 
 
 def get_cards_desc(cards):
@@ -142,9 +164,9 @@ def get_cards_desc(cards):
         gp = lines[0]
         era = lines[1]
         card = lines[2]
-        if not gp in dict:
+        if gp not in dict:
             dict[gp] = {}
-        if not era in dict[gp]:
+        if era not in dict[gp]:
             dict[gp][era] = [card]
         else:
             dict[gp][era].append(card)
