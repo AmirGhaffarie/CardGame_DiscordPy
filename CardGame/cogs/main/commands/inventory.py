@@ -116,16 +116,15 @@ def get_args(*args):
     args_length = len(args)
     if args_length > 0:
         params = {}
-        for index in range(args_length):
-            if args[index] == "g" and index + 1 < args_length:
+        for index, value in enumerate(args):
+            if value == "g" and index + 1 < args_length:
                 params["group"] = args[index + 1]
-            if args[index] == "e" and index + 1 < args_length:
+            if value == "e" and index + 1 < args_length:
                 params["era"] = args[index + 1]
-            if args[index] == "i" and index + 1 < args_length:
+            if value == "i" and index + 1 < args_length:
                 params["idol"] = args[index + 1]
         return params
-    else:
-        return {}
+    return {}
 
 
 def get_title(page, perpage, count):
