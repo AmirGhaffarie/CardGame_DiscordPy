@@ -14,7 +14,8 @@ async def command(self, ctx, *args):
         args_dict = get_args(args)
         current_page = 1
         params = {"page_size": str(INVENTORY_PAGE_SIZE), "page": current_page}
-        params.update(args_dict)
+        if args_dict is not None:
+            params.update(args_dict)
         async with session.get(
             f"{DB_BASE_ADDRESS}/inventory/{user_id_for_request}", params=params
         ) as r:
@@ -122,6 +123,7 @@ def get_args(*args):
                 params["era"] = args[index + 1]
             if args[index] == "i" and index + 1 < args_length:
                 params["idol"] = args[index + 1]
+        return params
     else:
         return {}
 
