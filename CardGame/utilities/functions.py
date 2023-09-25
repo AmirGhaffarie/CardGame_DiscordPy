@@ -61,10 +61,11 @@ def fill_embed_desc(embed, variables) -> str:
     )
 
 
-def check_embed_var(var: str, variables) -> str:
-    if var.startswith("e:"):
+def check_embed_var(var: re.Match, variables) -> str:
+    match_string = var.group()
+    if match_string.startswith("e:"):
         return emojis.get(var[2:])
-    return variables[var]
+    return variables[match_string]
 
 
 async def show_card(ctx, card, reactions, embed_title, embed_color):
