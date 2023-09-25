@@ -64,7 +64,7 @@ def fill_embed_desc(embed, variables) -> str:
 def check_embed_var(var: re.Match, variables) -> str:
     match_string = var.group()
     if match_string.startswith("e:"):
-        return emojis.get(var[2:])
+        return emojis.get(match_string[2:])
     return variables[match_string]
 
 
