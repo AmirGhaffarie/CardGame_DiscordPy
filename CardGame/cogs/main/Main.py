@@ -55,6 +55,10 @@ class Main(commands.Cog):
     async def fuse(self, ctx, *args):
         await fuse_command(self, ctx, *args)
 
+    @commands.command(aliases=["h", "H"])
+    async def hug(self, ctx, *args):
+        await hug_command(self, ctx, *args)
+
 
 async def setup(client):
     await client.add_cog(Main(client))

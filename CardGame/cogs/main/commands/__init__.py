@@ -10,3 +10,4 @@ from .reload import command as reload_command
 from .start import command as start_command
 from .view import command as view_command
 from .weekly import command as weekly_command
+from .hug import command as hug_command
