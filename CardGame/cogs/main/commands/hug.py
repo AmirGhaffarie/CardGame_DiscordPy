@@ -19,6 +19,6 @@ async def command(self, ctx, *args):
             else:
                 embed.description = f"{ctx.author.mention} hugged air."
 
-            embed.set_image(res["results"][rnd]["media"][0]["gif"]["url"])
+            embed.set_image(url=res["results"][rnd]["media"][0]["gif"]["url"])
 
             await ctx.send(embed=embed)
