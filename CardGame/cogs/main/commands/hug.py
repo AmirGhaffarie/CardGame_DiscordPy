@@ -1,6 +1,7 @@
 import asyncio
 import json, random
 
+import discord
 from aiohttp.client import ClientSession
 
 
@@ -11,10 +12,13 @@ async def command(self, ctx, *args):
         ) as r:
             res = json.loads(await r.text())
             rnd = random.randrange(20)
+            embed = discord.Embed(title=f"Hug", color=0x9CB6EB)
+            embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
             if len(args) > 0:
-                result = f"{ctx.author.display_name} hugged {args[0]}."
+                embed.description = f"{ctx.author.mention} hugged {args[0]}."
             else:
-                result = f"{ctx.author.display_name} hugged air."
-            await ctx.send(
-                result + "\n" + res["results"][rnd]["media"][0]["gif"]["url"]
-            )
+                embed.description = f"{ctx.author.mention} hugged air."
+
+            embed.set_image(res["results"][rnd]["media"][0]["gif"]["url"])
+
+            await ctx.send(embed=embed)
