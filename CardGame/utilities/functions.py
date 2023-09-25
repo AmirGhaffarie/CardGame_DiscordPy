@@ -55,6 +55,16 @@ def get_cooldown(t):
         return cooldown
 
 
+def fill_embed_desc(embed, dict) -> str:
+    return re.sub("(?<=\<)(.*?)(?=\>)", lambda x: (check_embed_var(x, dict)), embed)
+
+
+def check_embed_var(var: str, dict) -> str:
+    if var.startswith("e:"):
+        return emojis.get(var[2:])
+    return dict[var]
+
+
 async def show_card(ctx, card, reactions, embed_title, embed_color):
     ci, embed, file = await get_card_embed(ctx, card, embed_title, embed_color)
     msg: discord.Message = await ctx.send(file=file, embed=embed)
@@ -190,9 +200,9 @@ async def load_database_datas():
     files = [f for f in os.scandir(get_databaseconfigs_dir()) if f.name.endswith(".py")]
     for file in files:
         mod = importlib.import_module(f"datas.{file.name[:-3]}")
-        if mod != None:
+        if mod is not None:
             func = getattr(mod, "load", None)
-            if func != None:
+            if func is not None:
                 await func()
 
 
