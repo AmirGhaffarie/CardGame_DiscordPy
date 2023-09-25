@@ -3,8 +3,7 @@ import json
 import discord
 from aiohttp.client import ClientSession
 
-import datas.embeds
-import embeds
+from datas import embeds
 
 from utilities.constants import *
 from utilities.functions import (

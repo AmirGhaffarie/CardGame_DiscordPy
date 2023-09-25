@@ -56,7 +56,9 @@ def get_cooldown(t):
 
 
 def fill_embed_desc(embed, variables) -> str:
-    return re.sub("(?<=\<)(.*?)(?=\>)", lambda x: (check_embed_var(x, variables)), embed)
+    return re.sub(
+        "(?<=\<)(.*?)(?=\>)", lambda x: (check_embed_var(x, variables)), embed
+    )
 
 
 def check_embed_var(var: str, variables) -> str:
