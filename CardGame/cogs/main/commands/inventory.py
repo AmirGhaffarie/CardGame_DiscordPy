@@ -34,7 +34,7 @@ async def command(self, ctx, *args):
             next_emoji = emojis.get(EMOJIS_SKIP)
             prev_emoji = emojis.get(EMOJIS_SKIPLEFT)
 
-            embed.description = get_cards_desc(cards)
+            embed.description = await get_cards_desc(cards, user_id_for_request)
 
             msg: discord.Message = await ctx.send(embed=embed)
             start_time = datetime.now(timezone.utc)
@@ -81,7 +81,7 @@ async def command(self, ctx, *args):
                             title=get_title(page, INVENTORY_PAGE_SIZE, count),
                             color=0x9CB6EB,
                         )
-                        embed.description = get_cards_desc(cards)
+                        embed.description = await get_cards_desc(cards, user_id_for_request)
                         await reaction.remove(ctx.author)
                         await msg.edit(embed=embed)
                         delay = min(LONG_COMMAND_TIMEOUT, delay + 5)
@@ -107,7 +107,7 @@ async def command(self, ctx, *args):
                             title=get_title(page, INVENTORY_PAGE_SIZE, count),
                             color=0x9CB6EB,
                         )
-                        embed.description = get_cards_desc(cards)
+                        embed.description = await get_cards_desc(cards, user_id_for_request)
                         await reaction.remove(ctx.author)
                         await msg.edit(embed=embed)
                         delay = min(LONG_COMMAND_TIMEOUT, delay + 5)
@@ -161,7 +161,7 @@ def get_title(page, per_page, count):
     return f"{emoji}Inventory\n**{first_index}**->**{last_index}** from **{count}**"
 
 
-def get_cards_desc(cards):
+async def get_cards_desc(cards, user_id):
     dict = {}
     for card in cards:
         lines = card.splitlines()
@@ -179,8 +179,10 @@ def get_cards_desc(cards):
     triangle = emojis.get("GENERIC_LINESTART")
     for group in dict:
         for era, card_list in dict[group].items():
-            result += f"{arrow} **{group}**:\n"
-            result += f"> {triangle} **{era}** • ({len(card_list)})\n"
-            for card_info in card_list:
-                result += card_info + "\n"
+            async with ClientSession(trust_env=True) as session:
+                async with session.get(f"{DB_BASE_ADDRESS}/eracount/{user_id}/{era}") as r:
+                    result += f"{arrow} **{group}**:\n"
+                    result += f"> {triangle} **{era}** • ({await r.text()})\n"
+                    for card_info in card_list:
+                        result += card_info + "\n"
     return result
