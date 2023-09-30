@@ -9,7 +9,6 @@ from utilities.constants import *
 from utilities.functions import (
     get_image,
     get_card,
-    fill_embed_desc,
 )
 
 
@@ -30,8 +29,7 @@ async def command(self, ctx, *args):
                 embed.set_author(
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
-                embed_desc = embeds.get("VIEW")
-                embed.description = fill_embed_desc(embed_desc, cardinfo)
+                embed.description = embeds.get("VIEW", cardinfo)
                 filepath = await get_image(cardinfo["url"])
                 file = discord.File(filepath, filename="card.png")
                 embed.set_image(url="attachment://card.png")

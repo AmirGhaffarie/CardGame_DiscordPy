@@ -1,13 +1,13 @@
 from aiohttp.client import ClientSession
 
 from utilities.constants import *
-
+from utilities.functions import fill_embed_desc
 dictionary = {}
 
 
-def get(label):
+def get(label, content_dict):
     if label in dictionary:
-        return dictionary[label]
+        return fill_embed_desc(dictionary[label], content_dict)
     return "embed not found"
 
 

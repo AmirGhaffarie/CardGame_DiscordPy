@@ -1,7 +1,7 @@
 import discord
 from aiohttp.client import ClientSession
 
-from datas import emojis
+from datas import emojis, embeds
 from utilities.constants import *
 
 
@@ -18,6 +18,6 @@ async def command(self, ctx):
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
                 coins = await r.text()
-                emoji = emojis.get("GENERIC_COIN")
-                embed.description = f"You have {coins} {emoji} coins."
+                content = {"coins": coins}
+                embed.description = embeds.get("BALANCE", content)
                 await ctx.send(embed=embed)
