@@ -143,7 +143,10 @@ async def drop_extra(self, card, ctx):
             ) as r:
                 duplicate = await r.text()
                 add_duplicate_to_embed(duplicate, embed)
-                await ctx.send(embed=embed)
+                filepath = await get_image(cardInfo["url"])
+                file = discord.File(filepath, filename="card.png")
+                embed.set_image(url="attachment://card.png")
+                await ctx.send(file=file, embed=embed)
     else:
         loseembed = discord.Embed(
             title="Drop Lost",
@@ -152,7 +155,4 @@ async def drop_extra(self, card, ctx):
         )
         loseembed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
         await msg.delete()
-        filepath = await get_image(cardInfo["url"])
-        file = discord.File(filepath, filename="card.png")
-        embed.set_image(url="attachment://card.png")
-        await ctx.send(file=file, embed=loseembed)
+        await ctx.send(embed=loseembed)
