@@ -65,6 +65,8 @@ async def command(self, ctx, *args):
                         "page_size": str(INVENTORY_PAGE_SIZE),
                         "page": current_page,
                     }
+                    if args_dict is not None:
+                        params.update(args_dict)
                     async with session.get(
                         f"{DB_BASE_ADDRESS}/inventory/{user_id_for_request}",
                         params=params,
@@ -89,6 +91,8 @@ async def command(self, ctx, *args):
                         "page_size": str(INVENTORY_PAGE_SIZE),
                         "page": current_page,
                     }
+                    if args_dict is not None:
+                        params.update(args_dict)
                     async with session.get(
                         f"{DB_BASE_ADDRESS}/inventory/{user_id_for_request}",
                         params=params,
