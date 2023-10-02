@@ -75,6 +75,10 @@ class Main(commands.Cog):
     async def wave(self, ctx, *args):
         await wave_command(self, ctx, *args)
 
+    @commands.command()
+    async def nod(self, ctx, *args):
+        await nod_command(self, ctx, *args)
+
 
 async def setup(client):
     await client.add_cog(Main(client))
