@@ -8,7 +8,7 @@ from aiohttp.client import ClientSession
 async def command(self, ctx, *args):
     async with ClientSession() as session:
         async with session.get(
-            "https://g.tenor.com/v1/random?q=kpopsipping&key=LIVDSRZULELA"
+            "https://g.tenor.com/v1/random?q=kpop%20sip&key=LIVDSRZULELA"
         ) as r:
             res = json.loads(await r.text())
             rnd = random.randrange(20)
