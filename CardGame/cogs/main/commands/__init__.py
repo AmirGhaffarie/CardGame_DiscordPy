@@ -1,7 +1,6 @@
 from .balance import command as balance_command
 from .cooldown import command as cooldown_command
 from .daily import command as daily_command
-from .fuse import command as fuse_command
 from .gacha import command as gacha_command
 from .gift import command as gift_command
 from .inventory import command as inventory_command
@@ -11,3 +10,8 @@ from .start import command as start_command
 from .view import command as view_command
 from .weekly import command as weekly_command
 from .hug import command as hug_command
+from .kiss import command as kiss_command
+from .happy import command as happy_command
+from .wave import command as wave_command
+from .run import command as run_command
+from .sip import command as sip_command

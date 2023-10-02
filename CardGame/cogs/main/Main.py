@@ -51,13 +51,29 @@ class Main(commands.Cog):
     async def reload(self, ctx, *args):
         await reload_command(self, ctx, *args)
 
-    @commands.command(aliases=["f", "F"])
-    async def fuse(self, ctx, *args):
-        await fuse_command(self, ctx, *args)
-
     @commands.command(aliases=["h", "H"])
     async def hug(self, ctx, *args):
         await hug_command(self, ctx, *args)
+
+    @commands.command()
+    async def kiss(self, ctx, *args):
+        await kiss_command(self, ctx, *args)
+
+    @commands.command()
+    async def happy(self, ctx, *args):
+        await happy_command(self, ctx, *args)
+
+    @commands.command()
+    async def run(self, ctx, *args):
+        await run_command(self, ctx, *args)
+
+    @commands.command()
+    async def sip(self, ctx, *args):
+        await sip_command(self, ctx, *args)
+
+    @commands.command()
+    async def wave(self, ctx, *args):
+        await wave_command(self, ctx, *args)
 
 
 async def setup(client):
