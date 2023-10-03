@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/CardGame" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CardGame/datas" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CardGame/utilities" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CardGame/cogs/main/commands" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>

@@ -83,6 +83,15 @@ def add_duplicate_to_embed(duplicate, embed):
         embed.description += f"\n> {emoji} **New Card!**"
 
 
+def get_duplicate(duplicate):
+    if duplicate == "True":
+        emoji = emojis.get("GENERIC_DUPLICATE")
+        return f"{emoji} **Duplicate**"
+    else:
+        emoji = emojis.get("GENERIC_NEWCARD")
+        return f"{emoji} **New Card!**"
+
+
 def add_coins_to_embed(coins, embed):
     emoji = emojis.get("GENERIC_COIN")
     embed.description += f"\nStarz\nYou Earned **{coins}** {emoji}"

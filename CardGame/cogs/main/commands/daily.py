@@ -2,13 +2,12 @@ import random
 
 from aiohttp import ClientSession
 
-from datas import emojis
+from datas import emojis, embeds
 from utilities.constants import *
 from utilities.functions import (
     get_cooldown,
     get_card_embed,
-    add_duplicate_to_embed,
-    add_coins_to_embed,
+    get_duplicate,
 )
 
 
@@ -36,7 +35,10 @@ async def command(self, ctx, *args):
                 ) as r3:
                     await r3.text()
 
-                add_duplicate_to_embed(duplicate, embed)
-                add_coins_to_embed(coins_got, embed)
+                adds = {"duplicate": get_duplicate(duplicate),
+                        "coins": str(coins_got)
+                        }
 
-                await ctx.send(file=file, embed=embed)
+                card_info.update(adds)
+
+                await ctx.send(file=file, embed=embeds.get("DAILY", card_info))
