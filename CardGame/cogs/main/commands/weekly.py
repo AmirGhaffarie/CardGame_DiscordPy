@@ -73,6 +73,6 @@ async def command(self, ctx, *args):
                 ) as r3:
                     await r3.text()
 
-                embed.description = embeds.get("Weekly", replacements);
+                embed.description = embeds.get("WEEKLY", replacements);
 
                 await ctx.send(file=file, embed=embed)
