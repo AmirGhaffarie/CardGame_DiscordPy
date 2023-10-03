@@ -58,7 +58,7 @@ def get_cooldown(t):
 async def show_card(ctx, card, reactions, embed_title, embed_color, embed_name=None):
     ci, embed, file = await get_card_embed(ctx, card, embed_title, embed_color)
     if embed_name is not None:
-        embed.description = embeds.get(embed_name, card)
+        embed.description = embeds.get(embed_name, ci)
     msg: discord.Message = await ctx.send(file=file, embed=embed)
     for reaction in reactions:
         await msg.add_reaction(reaction)
