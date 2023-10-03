@@ -68,7 +68,7 @@ async def command(self, ctx):
                                 duplicate = get_duplicate(await r.text())
                                 card["duplicate"] = duplicate
                                 card["owner"] = ctx.author.mention
-                                embed = embeds.get("LUCKY2", card)
+                                embed.description = embeds.get("LUCKY2", card)
                                 await msg.edit(embed=embed)
                                 await msg.clear_reactions()
                             card_infos.pop(current)
