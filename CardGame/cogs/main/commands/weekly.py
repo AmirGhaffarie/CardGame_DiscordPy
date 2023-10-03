@@ -4,14 +4,13 @@ import random
 import discord
 from aiohttp import ClientSession
 
-from datas import emojis
+from datas import emojis, embeds
 from utilities.constants import *
 from utilities.functions import (
     get_cooldown,
     get_image,
     merge_images,
-    add_duplicate_to_embed,
-    add_coins_to_embed,
+    get_duplicate
 )
 
 
@@ -47,30 +46,33 @@ async def command(self, ctx, *args):
                     name=ctx.author.display_name, icon_url=ctx.author.avatar
                 )
 
-                embed.description = card1["CardDescription"]
+                replacements = card1
+                for key,value in card2.items():
+                    replacements[key + "2"] = value
 
                 coins_got = random.randint(12, 16)
-
+                replacements["coins"] = str(coins_got)
                 embed.set_image(url=f"attachment://card.png")
+
                 card1uid = card1["ID"]
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card1uid}"
                 ) as r:
                     duplicate = await r.text()
-                    add_duplicate_to_embed(duplicate, embed)
-
-                embed.description += "\n\n" + card2["CardDescription"]
+                    replacements["duplicate"] = get_duplicate(duplicate)
                 card2uid = card2["ID"]
 
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card2uid}"
                 ) as r2:
                     duplicate = await r2.text()
-                    add_duplicate_to_embed(duplicate, embed)
+                    replacements["duplicate2"] = get_duplicate(duplicate)
 
                 async with session.get(
                     f"{DB_BASE_ADDRESS}/changebalance/{ctx.author.id}/{coins_got}"
                 ) as r3:
                     await r3.text()
-                add_coins_to_embed(coins_got, embed)
+
+                embed.description = embeds.get("Weekly", replacements);
+
                 await ctx.send(file=file, embed=embed)
