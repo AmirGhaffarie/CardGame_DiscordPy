@@ -56,7 +56,7 @@ async def command(self, ctx):
                         filepath = await get_image(card_info["url"])
                         file = discord.File(filepath, filename="card.png")
                         embed.set_image(url="attachment://card.png")
-                        card_info.add("duplicate", get_duplicate(duplicate))
-                        card_info.add("winner", winner.mention)
+                        card_info["duplicate"] = get_duplicate(duplicate)
+                        card_info["winner"] = winner.mention
                         embed.description = embeds.get("DROP2", card_info)
                         await ctx.send(file=file, embed=embed)
