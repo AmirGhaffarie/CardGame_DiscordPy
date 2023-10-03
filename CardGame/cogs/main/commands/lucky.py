@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import discord
 from aiohttp import ClientSession
 
-from datas import emojis
+from datas import emojis, embeds
 from utilities.constants import *
 from utilities.functions import (
     get_card_embed,
@@ -13,7 +13,7 @@ from utilities.functions import (
     show_card,
     check_can_claim,
     get_image,
-    add_duplicate_to_embed,
+    get_duplicate,
 )
 
 
@@ -37,6 +37,7 @@ async def command(self, ctx):
                     [drop_emoji, skip_emoji],
                     f"{emoji}Lucky",
                     0x9CB6EB,
+                    "LUCKY1"
                 )
 
                 def check(reaction, user):
@@ -59,13 +60,15 @@ async def command(self, ctx):
                     else:
                         msg = await msg.channel.fetch_message(msg.id)
                         if str(reaction.emoji) == drop_emoji:
-                            embed.add_field(name="Owner", value=ctx.author.mention)
-                            carduid = json.loads(card_infos[current])["ID"]
+                            card = json.loads(card_infos[current])
+                            card_uid = card["ID"]
                             async with session.get(
-                                f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{carduid}"
+                                f"{DB_BASE_ADDRESS}/addcard/{ctx.author.id}/{card_uid}"
                             ) as r:
-                                duplicate = await r.text()
-                                add_duplicate_to_embed(duplicate, embed)
+                                duplicate = get_duplicate(await r.text())
+                                card["duplicate"] = duplicate
+                                card["owner"] = ctx.author.mention
+                                embed = embeds.get("LUCKY2", card)
                                 await msg.edit(embed=embed)
                                 await msg.clear_reactions()
                             card_infos.pop(current)
@@ -78,6 +81,7 @@ async def command(self, ctx):
                                 card_info, embed, file = await get_card_embed(
                                     ctx, card_infos[current], f"{emoji}Lucky", 0x9CB6EB
                                 )
+                                embed.description = embeds.get("LUCKY1", card_info)
                                 await msg.clear_reactions()
                                 await msg.remove_attachments(msg.attachments)
                                 await msg.add_files(file)
@@ -107,7 +111,7 @@ async def drop_extra(self, card, ctx):
     drop_emoji = emojis.get(EMOJIS_DROP)
     emoji = emojis.get("CLAIM")
     cardInfo, embed, msg = await show_card(
-        ctx, card, [drop_emoji], f"{emoji}Claimable", 0x9CB6EB)
+        ctx, card, [drop_emoji], f"{emoji}Claimable", 0x9CB6EB,"CLAIM1")
 
     def check(reaction, user):
         return (
@@ -133,15 +137,16 @@ async def drop_extra(self, card, ctx):
                 winner = user
                 break
     if claimed:
-        embed.add_field(name="Claimed", value=winner.mention)
         await msg.delete()
         carduid = cardInfo["ID"]
         async with ClientSession() as session:
             async with session.get(
                 f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}"
             ) as r:
-                duplicate = await r.text()
-                add_duplicate_to_embed(duplicate, embed)
+                duplicate = get_duplicate(await r.text())
+                cardInfo["duplicate"] = duplicate
+                cardInfo["winner"] = winner.mention
+                embed.description = embeds.get("CLAIM2", cardInfo)
                 filepath = await get_image(cardInfo["url"])
                 file = discord.File(filepath, filename="card.png")
                 embed.set_image(url="attachment://card.png")
