@@ -4,13 +4,13 @@ from asyncio import sleep
 import discord
 from aiohttp import ClientSession
 
-from datas import emojis
+from datas import emojis, embeds
 from utilities.constants import *
 from utilities.functions import (
     get_image,
     get_cooldown,
     show_card,
-    add_duplicate_to_embed,
+    get_duplicate,
 )
 
 
@@ -26,7 +26,7 @@ async def command(self, ctx):
                 emoji = emojis.get("Drop")
                 card_info, embed, msg = await show_card(
                     ctx, await r.text(), [drop_emoji], f"{emoji}Drop", 0x9CB6EB
-                )
+                    , "DROP1")
                 await sleep(DROP_TIMEOUT)
                 msg = await msg.channel.fetch_message(msg.id)
                 ra = list(filter(lambda x: str(x.emoji) == drop_emoji, msg.reactions))[
@@ -47,7 +47,6 @@ async def command(self, ctx):
                     await ctx.send(embed=lose_embed)
                 else:
                     winner = random.choice(users)
-                    embed.add_field(name="Winner", value=winner.mention)
                     await msg.delete()
                     carduid = card_info["ID"]
                     async with session.get(
@@ -57,5 +56,7 @@ async def command(self, ctx):
                         filepath = await get_image(card_info["url"])
                         file = discord.File(filepath, filename="card.png")
                         embed.set_image(url="attachment://card.png")
-                        add_duplicate_to_embed(duplicate, embed)
+                        card_info.add("duplicate", get_duplicate(duplicate))
+                        card_info.add("winner", winner.mention)
+                        embed.description = embeds.get("DROP2", card_info)
                         await ctx.send(file=file, embed=embed)

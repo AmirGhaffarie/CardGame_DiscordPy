@@ -107,8 +107,7 @@ async def drop_extra(self, card, ctx):
     drop_emoji = emojis.get(EMOJIS_DROP)
     emoji = emojis.get("CLAIM")
     cardInfo, embed, msg = await show_card(
-        ctx, card, [drop_emoji], f"{emoji}Claimable", 0x9CB6EB
-    )
+        ctx, card, [drop_emoji], f"{emoji}Claimable", 0x9CB6EB)
 
     def check(reaction, user):
         return (

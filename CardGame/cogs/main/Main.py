@@ -17,7 +17,7 @@ class Main(commands.Cog):
 
     @commands.command(aliases=["d", "D"])
     async def drop(self, ctx):
-        await gacha_command(self, ctx)
+        await drop_command(self, ctx)
 
     @commands.command(aliases=["l", "L"])
     async def lucky(self, ctx):

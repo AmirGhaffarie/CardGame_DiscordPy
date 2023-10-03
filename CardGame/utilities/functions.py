@@ -12,7 +12,7 @@ import discord
 from PIL import Image
 from aiohttp import ClientSession
 
-from datas import emojis
+from datas import emojis, embeds
 from utilities.constants import *
 
 
@@ -66,8 +66,10 @@ def check_embed_var(var: re.Match, variables) -> str:
     return variables[match_string]
 
 
-async def show_card(ctx, card, reactions, embed_title, embed_color):
+async def show_card(ctx, card, reactions, embed_title, embed_color, embed_name=None):
     ci, embed, file = await get_card_embed(ctx, card, embed_title, embed_color)
+    if embed_name is not None:
+        embed.description = embeds.get(embed_name, card)
     msg: discord.Message = await ctx.send(file=file, embed=embed)
     for reaction in reactions:
         await msg.add_reaction(reaction)
