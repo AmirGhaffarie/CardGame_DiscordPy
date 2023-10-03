@@ -23,6 +23,10 @@ class Main(commands.Cog):
     async def lucky(self, ctx):
         await lucky_command(self, ctx)
 
+    @commands.command(aliases=["l2", "L2"])
+    async def lucky2(self, ctx):
+        await lucky2_command(self, ctx)
+
     @commands.command(aliases=["i", "I", "inv"])
     async def inventory(self, ctx, *args):
         await inventory_command(self, ctx, *args)

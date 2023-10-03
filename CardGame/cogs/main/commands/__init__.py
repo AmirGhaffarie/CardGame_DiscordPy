@@ -16,3 +16,4 @@ from .wave import command as wave_command
 from .run import command as run_command
 from .sip import command as sip_command
 from .nod import command as nod_command
+from .lucky2 import command as lucky2_command
