@@ -55,17 +55,6 @@ def get_cooldown(t):
         return cooldown
 
 
-def fill_embed_desc(embed, variables) -> str:
-    return re.sub("<(.*?)>", lambda x: (check_embed_var(x, variables)), embed)
-
-
-def check_embed_var(var: re.Match, variables) -> str:
-    match_string = var.group()[1:-1]
-    if match_string.startswith("e:"):
-        return emojis.get(match_string[2:].upper())
-    return variables[match_string]
-
-
 async def show_card(ctx, card, reactions, embed_title, embed_color, embed_name=None):
     ci, embed, file = await get_card_embed(ctx, card, embed_title, embed_color)
     if embed_name is not None:
@@ -233,6 +222,3 @@ def merge_images(image_list):
     new_im.save(filepath)
 
     return filepath
-
-
-print(fill_embed_desc("<gaia>", {"gaia": "kir"}))
