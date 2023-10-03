@@ -41,4 +41,6 @@ async def command(self, ctx, *args):
 
                 card_info.update(adds)
 
-                await ctx.send(file=file, embed=embeds.get("DAILY", card_info))
+                embed.description = embeds.get("DAILY", card_info)
+
+                await ctx.send(file=file, embed=embed)
