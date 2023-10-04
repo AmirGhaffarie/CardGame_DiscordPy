@@ -123,6 +123,33 @@ async def check_can_claim(self, user, ctx) -> bool:
                     return True
 
 
+async def can_claim(self, user, ctx) -> bool:
+    async with ClientSession() as session:
+        async with session.get(f"{DB_BASE_ADDRESS}/cds/{user.id}") as r:
+            if r.status == 404:
+                await ctx.send(f'{user.mention} register with "start" first.')
+                return False
+            else:
+                items = json.loads(await r.text())
+                cd = items["Claim"]
+                deltatime = parse_time(cd)
+                if deltatime > timedelta(seconds=0):
+                    await ctx.send(
+                        f"{user.mention} Wait for {get_cooldown(cd)} before another claim."
+                    )
+                    return False
+                else:
+                    return True
+
+
+async def do_claim(self, user):
+    async with ClientSession() as session:
+        async with session.get(
+            f"{DB_BASE_ADDRESS}/claim/{user.id}"
+        ) as r:
+            await r.text()
+
+
 def get_input_type(input_string: str):
     if (
         (input_string.startswith("<@") or input_string.startswith("<@!"))
