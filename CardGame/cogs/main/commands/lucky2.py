@@ -51,7 +51,7 @@ async def drop_extra(self, card, ctx, player):
     claimed = False
     reacts = []
     start_time = datetime.now(timezone.utc)
-    while (datetime.now(timezone.utc) - start_time).seconds < 15:
+    while (datetime.now(timezone.utc) - start_time).seconds < 8:
         try:
             reaction, user = await self.bot.wait_for(
                 "reaction_add", timeout=5, check=check
