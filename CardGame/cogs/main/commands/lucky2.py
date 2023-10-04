@@ -54,16 +54,15 @@ async def drop_extra(self, card, ctx, player):
     while (datetime.now(timezone.utc) - start_time).seconds < 15:
         try:
             reaction, user = await self.bot.wait_for(
-                "reaction_add", timeout=10, check=check
+                "reaction_add", timeout=5, check=check
             )
         except asyncio.TimeoutError:
             pass
         else:
             if ((user == ctx.author and not player)
-                    or await can_claim(self, user, ctx)):
+                    or (user != ctx.author and await can_claim(self, user, ctx))):
                 claimed = True
                 reacts.append(user)
-                break
     player_won = player
     if claimed:
         if not player and reacts.count(ctx.author) > 0:
