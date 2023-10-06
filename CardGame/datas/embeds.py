@@ -20,7 +20,7 @@ def check_embed_var(var: re.Match, variables) -> str:
     match_string = var.group()[1:-1]
     if match_string.startswith("e:"):
         return emojis.get(match_string[2:].upper())
-    return variables[match_string]
+    return str(variables[match_string])
 
 
 async def load():
