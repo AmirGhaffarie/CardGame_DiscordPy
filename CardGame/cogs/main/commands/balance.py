@@ -23,5 +23,9 @@ async def command(self, ctx,  *args):
                 )
                 coins = await r.text()
                 content = {"coins": coins}
-                embed.description = embeds.get("BALANCE", content)
+                if len(args) > 0:
+                    content["user"] = f"<@{user}>"
+                    embed.description = embeds.get("BALANCE2", content)
+                else:
+                    embed.description = embeds.get("BALANCE1", content)
                 await ctx.send(embed=embed)
