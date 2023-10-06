@@ -11,13 +11,21 @@ class Main(commands.Cog):
     async def start(self, ctx):
         await start_command(self, ctx)
 
-    @commands.command(aliases=["cd", "Cd", "cD", "CD", "T", "t"])
-    async def cooldown(self, ctx):
+    @commands.command(aliases=["ccd", "CCD", "T", "t"])
+    async def cardcooldown(self, ctx):
         await cooldown_command(self, ctx)
 
     @commands.command(aliases=["d", "D"])
     async def drop(self, ctx):
         await drop_command(self, ctx)
+
+    @commands.command(aliases=["sg", "SG", "Sg"])
+    async def stargaze(self, ctx):
+        await stargaze_command(self, ctx)
+
+    @commands.command(aliases=["di", "DI", "Di"])
+    async def discover(self, ctx):
+        await discover_command(self, ctx)
 
     @commands.command(aliases=["l", "L"])
     async def lucky(self, ctx):
