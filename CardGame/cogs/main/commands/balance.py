@@ -3,11 +3,15 @@ from aiohttp.client import ClientSession
 
 from datas import emojis, embeds
 from utilities.constants import *
+from utilities.functions import get_user
 
 
-async def command(self, ctx):
+async def command(self, ctx,  *args):
     async with ClientSession() as session:
-        async with session.get(f"{DB_BASE_ADDRESS}/balance/{ctx.author.id}") as r:
+        user = ctx.author.id
+        if args.count() > 0:
+            user = get_user(args[0])
+        async with session.get(f"{DB_BASE_ADDRESS}/balance/{user}") as r:
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
             else:
