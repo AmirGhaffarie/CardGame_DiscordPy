@@ -32,6 +32,8 @@ async def command(self, ctx, *args):
                 await ctx.send(f"Wait for {get_cooldown(await r.text())}")
             elif r.status == 220:
                 await ctx.send("The group you entered not exists in our cards.")
+            elif r.status == 230:
+                await ctx.send("The group you entered can't be used with weekly command.")
             else:
                 card_infos = json.loads(await r.text())["res"]
                 card1 = json.loads(card_infos[0])
