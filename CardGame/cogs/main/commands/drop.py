@@ -38,7 +38,7 @@ async def command(self, ctx):
                         print(f"No reaction found matching the emoji: {drop_emoji}")
                 else:
                     print("No reactions found in the message.")
-                users = [user async for user in ra.users(limit=100)]
+                users = await ra.users().flatten()
                 users = [u for u in users if u.id != self.bot.user.id]
                 if len(users) < 1:
                     lose_embed = discord.Embed(
