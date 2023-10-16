@@ -29,9 +29,15 @@ async def command(self, ctx):
                     , "DROP1")
                 await sleep(DROP_TIMEOUT)
                 msg = await msg.channel.fetch_message(msg.id)
-                ra = list(filter(lambda x: str(x.emoji) == drop_emoji, msg.reactions))[
-                    0
-                ]
+                if msg.reactions:
+                    ra = list(filter(lambda x: str(x.emoji) == drop_emoji, msg.reactions))
+
+                    if ra:  # Check if the filtered list is not empty
+                        ra = ra[0]  # Get the first (and probably only) element from the filtered list
+                    else:
+                        print(f"No reaction found matching the emoji: {drop_emoji}")
+                else:
+                    print("No reactions found in the message.")
                 users = [user async for user in ra.users(limit=100)]
                 users = [u for u in users if u.id != self.bot.user.id]
                 if len(users) < 1:
