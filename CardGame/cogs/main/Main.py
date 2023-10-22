@@ -11,9 +11,17 @@ class Main(commands.Cog):
     async def start(self, ctx):
         await start_command(self, ctx)
 
-    @commands.command(aliases=["ccd", "CCD", "T", "t"])
+    @commands.command(aliases=["ccd", "CCD"])
     async def cardcooldown(self, ctx):
-        await cooldown_command(self, ctx)
+        await ccd_command(self, ctx)
+
+    @commands.command(aliases=["scd", "SCD"])
+    async def starcooldown(self, ctx):
+        await scd_command(self, ctx)
+
+    @commands.command(aliases=["cd", "CD"])
+    async def cooldown(self, ctx):
+        await cd_command(self, ctx)
 
     @commands.command(aliases=["d", "D"])
     async def drop(self, ctx):

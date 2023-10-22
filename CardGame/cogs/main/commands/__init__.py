@@ -1,5 +1,7 @@
 from .balance import command as balance_command
-from .cooldown import command as cooldown_command
+from .cooldown import ccd_command
+from .cooldown import cd_command
+from .cooldown import scd_command
 from .daily import command as daily_command
 from .drop import command as drop_command
 from .gift import command as gift_command
