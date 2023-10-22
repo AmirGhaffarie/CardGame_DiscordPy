@@ -71,7 +71,7 @@ class Main(commands.Cog):
     async def reload(self, ctx, *args):
         await reload_command(self, ctx, *args)
 
-    @commands.command(aliases=["h", "H"])
+    @commands.command(aliases=["h", "H", "abrazo"])
     async def hug(self, ctx, *args):
         await hug_command(self, ctx, *args)
 
