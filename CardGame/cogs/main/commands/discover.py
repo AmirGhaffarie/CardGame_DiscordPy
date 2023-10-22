@@ -11,7 +11,7 @@ from utilities.functions import (
 
 async def command(self, ctx, *args):
     async with ClientSession() as session:
-        async with session.get(f"{DB_BASE_ADDRESS}/daily/{ctx.author.id}") as r:
+        async with session.get(f"{DB_BASE_ADDRESS}/discover/{ctx.author.id}") as r:
             if r.status == 404:
                 await ctx.send('You need to register with "start" first.')
             elif r.status == 210:
