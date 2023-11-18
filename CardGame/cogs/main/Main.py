@@ -8,8 +8,8 @@ class Main(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def start(self, ctx):
-        await start_command(self, ctx)
+    async def start(self, ctx, *args):
+        await start_command(self, ctx, *args)
 
     @commands.command(aliases=["ccd", "CCD"])
     async def cardcooldown(self, ctx):
