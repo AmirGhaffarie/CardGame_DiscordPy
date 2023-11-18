@@ -27,7 +27,7 @@ async def show_card(ctx):
 
 async def make_image(ctx):
     img_back = Image.open(await get_file("/media/custom/start_card_back.png"))
-    pfp = Image.open(await load_from_url(ctx.author.avatar))
+    pfp = Image.open(await load_from_url(str(ctx.author.avatar)))
 
     pfp = pfp.resize((530, 530))
 
