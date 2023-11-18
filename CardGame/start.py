@@ -15,6 +15,12 @@ async def on_ready():
     update_status.start()
 
 
+@bot.event
+async def on_member_join(member):
+    channel = member.guild.system_channel
+    await channel.send(f"Jordan Welcomes You {member.mention}.")
+
+
 @tasks.loop(minutes=10)
 async def update_status():
     await bot.change_presence(

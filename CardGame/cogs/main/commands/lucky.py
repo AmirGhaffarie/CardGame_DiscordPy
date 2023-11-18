@@ -12,7 +12,7 @@ from utilities.functions import (
     get_cooldown,
     show_card,
     check_can_claim,
-    get_image,
+    get_file,
     get_duplicate,
 )
 
@@ -147,7 +147,7 @@ async def drop_extra(self, card, ctx):
                 cardInfo["duplicate"] = duplicate
                 cardInfo["winner"] = winner.mention
                 embed.description = embeds.get("CLAIM2", cardInfo)
-                filepath = await get_image(cardInfo["url"])
+                filepath = await get_file(cardInfo["url"])
                 file = discord.File(filepath, filename="card.png")
                 embed.set_image(url="attachment://card.png")
                 await ctx.send(file=file, embed=embed)

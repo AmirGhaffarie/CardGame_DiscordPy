@@ -8,7 +8,7 @@ from datas import emojis, embeds
 from utilities.constants import *
 from utilities.functions import (
     get_cooldown,
-    get_image,
+    get_file,
     merge_images,
     get_duplicate
 )
@@ -38,8 +38,8 @@ async def command(self, ctx, *args):
                 card_infos = json.loads(await r.text())["res"]
                 card1 = json.loads(card_infos[0])
                 card2 = json.loads(card_infos[1])
-                file1path = await get_image(card1["url"])
-                file2path = await get_image(card2["url"])
+                file1path = await get_file(card1["url"])
+                file2path = await get_file(card2["url"])
                 merged_image = merge_images([file1path, file2path])
                 file = discord.File(merged_image, filename="card.png")
                 emoji = emojis.get("WEEKLY")

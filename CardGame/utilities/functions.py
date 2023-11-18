@@ -93,7 +93,7 @@ async def get_card_embed(ctx, card, embedtitle, embedcolor):
     embed = discord.Embed(title=embedtitle, color=embedcolor)
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     embed.description = cardinfo["CardDescription"]
-    filepath = await get_image(cardinfo["url"])
+    filepath = await get_file(cardinfo["url"])
     file = discord.File(filepath, filename="card.png")
     embed.set_image(url="attachment://card.png")
     return cardinfo, embed, file
@@ -188,18 +188,23 @@ def get_tempfilename():
     return filename
 
 
-async def get_image(url):
+async def get_file(url):
     if LOCAL_MEDIA_FILES:
         filename = path.join(LOCAL_MEDIA_ADDRESS, url[1:])
     else:
         address = REMOTE_MEDIA_ADDRESS + url
-        async with ClientSession() as session:
-            async with session.get(address) as r:
-                filename = get_tempfilename()
-                async with aiofiles.open(filename, mode="wb") as f1:
-                    await f1.write(await r.read())
-                    await f1.close()
+        filename = await load_from_url(address)
     return filename
+
+
+async def load_from_url(address):
+    async with ClientSession() as session:
+        async with session.get(address) as r:
+            filename = get_tempfilename()
+            async with aiofiles.open(filename, mode="wb") as f1:
+                await f1.write(await r.read())
+                await f1.close()
+                return filename
 
 
 def read_config(section, key):

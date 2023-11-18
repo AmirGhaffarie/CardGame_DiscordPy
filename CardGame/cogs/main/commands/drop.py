@@ -7,7 +7,7 @@ from aiohttp import ClientSession
 from datas import emojis, embeds
 from utilities.constants import *
 from utilities.functions import (
-    get_image,
+    get_file,
     get_cooldown,
     show_card,
     get_duplicate,
@@ -52,7 +52,7 @@ async def command(self, ctx):
                         f"{DB_BASE_ADDRESS}/addcard/{winner.id}/{carduid}"
                     ) as r:
                         duplicate = await r.text()
-                        filepath = await get_image(card_info["url"])
+                        filepath = await get_file(card_info["url"])
                         file = discord.File(filepath, filename="card.png")
                         embed.set_image(url="attachment://card.png")
                         card_info["duplicate"] = get_duplicate(duplicate)
