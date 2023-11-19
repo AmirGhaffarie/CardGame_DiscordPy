@@ -20,7 +20,8 @@ async def command(self, ctx, *args):
 async def show_card(ctx):
     img_address = await make_image(ctx)
     file = discord.File(img_address, filename="card.png")
-    embed = discord.Embed(title="Register", color=0x9CB6EB, url="attachment://card.png")
+    embed = discord.Embed(title="Register", color=0x9CB6EB)
+    embed.set_image(url = "attachment://card.png")
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
     await ctx.send(file=file, embed=embed)
 
