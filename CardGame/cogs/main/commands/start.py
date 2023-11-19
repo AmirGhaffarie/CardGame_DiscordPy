@@ -27,7 +27,9 @@ async def show_card(ctx):
 
 async def make_image(ctx):
     img_back = Image.open(await get_file("/media/custom/start_card_back.png"))
-    pfp = Image.open(await load_from_url(str(ctx.author.avatar)))
+
+    member: discord.Member = ctx.author
+    pfp = Image.open(await load_from_url(member.avatar.url))
 
     pfp = pfp.resize((530, 530))
 
@@ -42,7 +44,7 @@ async def make_image(ctx):
     date = datetime.now()
 
     pos = [270, 430, 585]
-    text = [f"@{ctx.author.name}", ctx.author.nick, date.strftime("%m/%d/%y")]
+    text = [f"@{member.name}", member.name if member.nick is None else member.nick, date.strftime("%m/%d/%y")]
     fill = (93, 145, 255)
     outline = (255, 255, 255)
 
